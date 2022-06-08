@@ -7,7 +7,7 @@ enum SE { // Settings Endpoints
 const settingsApi = createApi({
   reducerPath: "settingsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5275/settings/",
+    baseUrl: process.env.REACT_APP_API_URL + "/settings/",
   }),
   endpoints: (builder) => ({
     getReportList: builder.query<any, void>({

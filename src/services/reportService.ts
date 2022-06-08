@@ -18,7 +18,7 @@ enum RE { // Report Endpoints
 const reportApi = createApi({
   reducerPath: "reportApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5275/reports/",
+    baseUrl: process.env.REACT_APP_API_URL + "/reports/",
     prepareHeaders: (headers, { getState }) => {
       const rootState = getState() as RootState;
 

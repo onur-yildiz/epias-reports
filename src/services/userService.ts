@@ -14,7 +14,7 @@ enum UE { // User Endpoints
 const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5275/user/",
+    baseUrl: process.env.REACT_APP_API_URL + "/user/",
     method: "post",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.user.token;
