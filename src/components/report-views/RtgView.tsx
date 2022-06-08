@@ -14,7 +14,7 @@ import { setRtgParams } from "../../store/paramSlice";
 import { useGetRtg } from "../../services/reportService";
 
 const RtgView = () => {
-  const params = useAppSelector((state) => state.param.damMcpParams);
+  const params = useAppSelector((state) => state.param.rtgParams);
   const dispatch = useAppDispatch();
   const { data, isLoading } = useGetRtg({
     startDate: params.startDate,
