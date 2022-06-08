@@ -1,0 +1,3 @@
+interface AssigneeParam {
+  assigneeEmail: string;
+}
