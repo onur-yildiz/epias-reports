@@ -50,10 +50,13 @@ const RtgView = () => {
             return addTooltipLabelSuffix(tooltipItem, `MWh`);
           },
           afterBody: (tooltipItem: any[]) => {
-            const total = tooltipItem.reduce((prev: number, curr: any) => {
-              return prev + curr.dataset.data[curr.dataIndex];
-            }, 0);
-            return `Total: ${total} MWh`;
+            const total: number = tooltipItem.reduce(
+              (prev: number, curr: any) => {
+                return prev + curr.dataset.data[curr.dataIndex];
+              },
+              0
+            );
+            return `Total: ${total.toLocaleString()} MWh`;
           },
         },
       },
