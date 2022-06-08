@@ -160,7 +160,7 @@ function DashboardContent() {
           </Button>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} sx={{ height: "100vh" }}>
         <Toolbar
           sx={{
             display: "flex",
