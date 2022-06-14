@@ -1,21 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import baseApi from "./baseApiService";
 
 enum SE { // Settings Endpoints
-  ReportList = "reportlist",
+  Roles = "/settings/roles",
 }
 
-const settingsApi = createApi({
-  reducerPath: "settingsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL + "/settings/",
-  }),
+const settingsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getReportList: builder.query<any, void>({
-      query: () => `${SE.ReportList}`,
+    getRoles: builder.query<Role[], void>({
+      query: () => SE.Roles,
+      providesTags: ["auth"],
     }),
   }),
 });
 
-export const { useLazyGetReportListQuery: useLazyGetReportList } = settingsApi;
+export const { useGetRolesQuery: useGetRoles } = settingsApi;
 
 export default settingsApi;

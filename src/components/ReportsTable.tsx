@@ -1,0 +1,120 @@
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-material.css";
+import "ag-grid-enterprise";
+
+import { ColDef, GridOptions, RowNode } from "ag-grid-enterprise";
+import { Fragment, useState } from "react";
+import {
+  useGetReports,
+  useLazyUpdateReportRoles,
+  useUpdateReportIsActive,
+} from "../services/reportService";
+
+import { AgGridReact } from "ag-grid-react";
+import Box from "@mui/material/Box";
+import RoleSelectDialog from "./RoleSelectDialog";
+
+const ReportsTable = () => {
+  const [isRoleSelectOpen, setIsRoleSelectOpen] = useState(false);
+  const [selectedReportRoles, setSelectedReportRoles] = useState<string[]>([]);
+  const [activeRow, setActiveRow] = useState<RowNode | null>();
+  const [updateRoles, { isLoading: isLoadingRoles }] =
+    useLazyUpdateReportRoles();
+  const [updateIsActive] = useUpdateReportIsActive();
+  const { data } = useGetReports();
+
+  const trueFalseSelector = (_: any) => ({
+    component: "agRichSelect",
+    params: { values: [true, false] },
+    popup: true,
+  });
+
+  const onRoleSelectionClose = async (roles?: string[]) => {
+    if (roles) {
+      const prevRoles = activeRow?.data.roles;
+      activeRow?.setDataValue("roles", roles);
+      try {
+        await updateRoles({
+          key: activeRow?.data?.key,
+          roles,
+        }).unwrap();
+      } catch (error) {
+        activeRow?.setDataValue("roles", prevRoles);
+      }
+    }
+
+    setIsRoleSelectOpen(false);
+  };
+
+  const [columnDefs] = useState<ColDef[]>([
+    { field: "key" },
+    {
+      field: "name",
+      cellRenderer: (params: any) => {
+        return params.data.name[0].short;
+      },
+    },
+    {
+      field: "roles",
+      onCellClicked: (event) => {
+        setIsRoleSelectOpen(true);
+        setSelectedReportRoles([...event.data.roles]);
+        setActiveRow(event.node);
+      },
+      cellRenderer: (params: any) => {
+        if (params.data.roles.length === 0) return "-";
+        else return params.data.roles.join(", ");
+      },
+    },
+    {
+      field: "isActive",
+      editable: true,
+      cellEditorSelector: trueFalseSelector,
+      flex: 1,
+    },
+  ]);
+
+  const gridOptions: GridOptions = {
+    columnDefs,
+    readOnlyEdit: true,
+    onCellEditRequest: async (event) => {
+      if (event.colDef.field === "isActive") {
+        try {
+          event.node.setDataValue("isActive", event.newValue);
+          await updateIsActive({
+            key: event.data.key,
+            isActive: event.newValue,
+          }).unwrap();
+        } catch (error) {
+          event.node.setDataValue("isActive", event.oldValue);
+        }
+      }
+    },
+  };
+
+  const rowData = [...(data?.map((item) => ({ ...item })) ?? [])];
+  return (
+    <Fragment>
+      <Box
+        sx={{
+          textAlign: "left",
+          width: "100%",
+          height: "93vh",
+        }}
+        className="ag-theme-material"
+      >
+        <AgGridReact gridOptions={gridOptions} rowData={rowData} />
+      </Box>
+      <RoleSelectDialog
+        id="reports-role-select-dialog"
+        keepMounted
+        open={isRoleSelectOpen}
+        onClose={onRoleSelectionClose}
+        roles={selectedReportRoles}
+        isLoading={isLoadingRoles}
+      />
+    </Fragment>
+  );
+};
+
+export default ReportsTable;

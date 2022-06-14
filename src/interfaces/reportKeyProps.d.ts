@@ -1,0 +1,3 @@
+interface ReportKeyProps {
+  reportKey: string;
+}

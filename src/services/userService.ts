@@ -1,74 +1,69 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-import { RootState } from "../store/store";
+import baseApi from "./baseApiService";
 
 enum UE { // User Endpoints
-  Login = "login",
-  RefreshToken = "refreshtoken",
-  Register = "register",
-  AssignRole = "assignrole",
-  RemoveRole = "removerole",
-  UpdateIsActive = "updateisactive",
+  Login = "user/login",
+  RefreshToken = "user/refreshtoken",
+  Register = "user/register",
+  UpdateRoles = "user/updateroles",
+  UpdateIsActive = "user/updateisactive",
+  All = "user/all",
 }
 
-const userApi = createApi({
-  reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL + "/user/",
-    method: "post",
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.user.token;
-
-      if (token.length > 0) headers.set("Authorization", token);
-      headers.set("Content-Type", "application/json");
-
-      return headers;
-    },
-  }),
+const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.query<User, LoginCredentials>({
+    login: builder.mutation<User, LoginCredentials>({
       query: (credentials) => ({
         url: UE.Login,
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["auth"],
     }),
-    refreshToken: builder.query<User, void>({
+    refreshToken: builder.mutation<User, void>({
       query: () => ({
         url: UE.RefreshToken,
         method: "POST",
       }),
+      invalidatesTags: ["auth"],
     }),
-    register: builder.query<User, RegisterCredentials>({
+    register: builder.mutation<User, RegisterCredentials>({
       query: (credentials) => ({
         url: UE.Register,
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["auth"],
     }),
-    assignRole: builder.query<any, RoleParams>({
-      query: (params) => ({ url: UE.AssignRole, method: "POST", body: params }),
+    updateAccountRoles: builder.mutation<void, UserRoleParams>({
+      query: (params) => ({
+        url: UE.UpdateRoles,
+        method: "POST",
+        body: params,
+      }),
+      invalidatesTags: ["user-status"],
     }),
-    removeRole: builder.query<any, RoleParams>({
-      query: (params) => ({ url: UE.RemoveRole, method: "POST", body: params }),
-    }),
-    updateIsActive: builder.query<any, UpdateIsActiveParams>({
+    updateAccountIsActive: builder.mutation<any, UpdateIsActiveParams>({
       query: (params) => ({
         url: UE.UpdateIsActive,
         method: "POST",
         body: params,
       }),
+      invalidatesTags: ["user-status"],
+    }),
+    getUsers: builder.query<AdminServicableUserData[], void>({
+      query: () => ({ url: UE.All, method: "GET" }),
+      providesTags: ["user-status"],
     }),
   }),
 });
 
 export const {
-  useLazyLoginQuery: useLazyLogin,
-  useLazyRefreshTokenQuery: useLazyRefreshToken,
-  useLazyRegisterQuery: useLazyRegister,
-  useAssignRoleQuery: useAssignRole,
-  useRemoveRoleQuery: useRemoveRole,
-  useUpdateIsActiveQuery: useUpdateIsActive,
+  useLoginMutation: useLazyLogin,
+  useRefreshTokenMutation: useLazyRefreshToken,
+  useRegisterMutation: useLazyRegister,
+  useUpdateAccountRolesMutation: useLazyUpdateAccountRoles,
+  useUpdateAccountIsActiveMutation: useLazyUpdateAccountIsActive,
+  useGetUsersQuery: useGetUsers,
 } = userApi;
 
 export default userApi;

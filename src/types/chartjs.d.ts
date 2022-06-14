@@ -13,4 +13,10 @@ declare module "chart.js" {
       ScaleChartOptions<ChartType> &
       ChartOptions
   >;
+
+  interface ChartConfig {
+    labelPropName: string;
+    chartOptions: CustomChartOptions;
+    chartDataOptions: ChartDataOptions;
+  }
 }

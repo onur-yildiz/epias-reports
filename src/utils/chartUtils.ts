@@ -1,6 +1,4 @@
-import { ChartData, CoreScaleOptions, Scale, ScatterDataPoint } from "chart.js";
-
-import format from "date-fns/format";
+import { ChartData, ScatterDataPoint } from "chart.js";
 
 const defaultColors = [
   ["#ff121e", "#ff5c44"],
@@ -40,7 +38,7 @@ const normalizeData: NormalizeDataFunction = (data, labelPropName, options) => {
 
   const labels: any[] = [];
   const valueProps =
-    valuePropNames ??
+    valuePropNames?.filter((p) => p !== labelPropName) ??
     Object.getOwnPropertyNames(data[0]).filter(
       (prop) => prop !== labelPropName
     );
@@ -112,14 +110,6 @@ const createChartData: CreateChartDataFunction = (
     }),
   };
 };
-
-// export const defaultDateCb = function (
-//   this: Scale<CoreScaleOptions>,
-//   value: number
-// ) {
-//   const label = this.getLabelForValue(value);
-//   return format(new Date(label), "dd.MM.yyyy HH:mm z");
-// };
 
 export const addTooltipLabelSuffix = (tooltipItem: any, suffix: string) => {
   const d = tooltipItem.dataset;

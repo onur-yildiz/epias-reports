@@ -3,64 +3,65 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
 
-import Dashboard from "./components/Dashboard";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import AccountPanel from "./screens/AccountPanel";
+import Login from "./screens/Login";
+import ProfileView from "./components/ProfileView";
+import Register from "./screens/Register";
 import ReportViewContainer from "./components/report-views/ReportViewContainer";
-import reportHierarchy from "./constants/reportHierarchy";
+import ReportsDashboard from "./screens/ReportsDashboard";
+import ReportsTable from "./components/ReportsTable";
+import StatusCode from "./components/StatusCode";
+import UsersTable from "./components/UsersTable";
 import { setUser } from "./store/authSlice";
 import { useEffect } from "react";
 import { useLazyRefreshToken } from "./services/userService";
 
-const generateReportRoutes = (
-  reportList: ReportHierarchyItem[]
-): JSX.Element[] => {
-  return reportList.flatMap((report) => {
-    if (report.children) return generateReportRoutes(report.children);
-
-    return [
-      <Route
-        key={report.path}
-        path={report.path}
-        element={<ReportViewContainer report={report.reportKey} />}
-      />,
-    ];
-  });
-};
-
-const reportRoutes = generateReportRoutes(reportHierarchy);
 const RedirectHome = () => <Navigate to="/" replace />;
 
 function App() {
   const dispatch = useAppDispatch();
-  const [token, isAuth] = useAppSelector((state) => [
+  const [token, isAuth, user] = useAppSelector((state) => [
     state.auth.user.token,
     state.auth.isAuthenticated,
+    state.auth.user,
   ]);
   const [refreshToken] = useLazyRefreshToken();
 
   useEffect(() => {
-    if (token.length === 0) return;
-    const fetchUserAndRefreshToken = async () => {
-      const user = await refreshToken().unwrap();
-      dispatch(setUser(user));
+    const fetchUserData = async () => {
+      if (token.length !== 0) dispatch(setUser(await refreshToken().unwrap())); // TODO before render
     };
-    fetchUserAndRefreshToken();
+
+    fetchUserData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Dashboard />}>
-          {reportRoutes}
+        <Route path="/" element={<ReportsDashboard />}>
+          <Route path={"/:reportKey"} element={<ReportViewContainer />} />
+        </Route>
+        <Route path="/account" element={<AccountPanel />}>
+          <Route path="profile" element={<ProfileView />} />
+          <Route
+            path="admin/users"
+            element={user.isAdmin ? <UsersTable /> : <StatusCode value={403} />}
+          />
+          <Route
+            path="admin/reports"
+            element={
+              user.isAdmin ? <ReportsTable /> : <StatusCode value={403} />
+            }
+          />
         </Route>
         <Route path="/login" element={isAuth ? <RedirectHome /> : <Login />} />
         <Route
           path="/register"
           element={isAuth ? <RedirectHome /> : <Register />}
         />
-        {reportRoutes != null && <Route path="*" element={<RedirectHome />} />}
+        <Route path="*" element={<StatusCode value={404} />} />
       </Routes>
     </div>
   );

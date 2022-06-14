@@ -38,7 +38,7 @@ d.scales.category.ticks = {
   callback: function (value) {
     const label = this.getLabelForValue(Number(value));
     try {
-      return format(new Date(label), "dd.MM.yyyy HH:mm z");
+      return format(new Date(label), "Pp z");
     } catch (error) {
       return label;
     }
@@ -52,13 +52,6 @@ d.scales.linear.title = {
     size: 16,
   },
 };
-// d.scales.linear.ticks = {
-//   ...d.scales.linear.ticks,
-//   autoSkip: true,
-//   maxTicksLimit: 8,
-//   minRotation: 25,
-//   maxRotation: 45,
-// };
 d.plugins.legend = {
   ...Chart.defaults.plugins.legend,
   display: false,

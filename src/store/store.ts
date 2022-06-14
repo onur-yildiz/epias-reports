@@ -1,26 +1,18 @@
 import authReducer from "./authSlice";
+import baseApi from "../services/baseApiService";
 import { configureStore } from "@reduxjs/toolkit";
 import paramSlice from "./paramSlice";
-import reportApi from "../services/reportService";
 import reportReducer from "./reportSlice";
-import settingsApi from "../services/settingsService";
-import userApi from "../services/userService";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     report: reportReducer,
     param: paramSlice,
-    [userApi.reducerPath]: userApi.reducer,
-    [reportApi.reducerPath]: reportApi.reducer,
-    [settingsApi.reducerPath]: settingsApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      userApi.middleware,
-      reportApi.middleware,
-      settingsApi.middleware
-    ),
+    getDefaultMiddleware().concat(baseApi.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

@@ -3,13 +3,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 
 interface ParamState {
-  damMcpParams: DateInterval;
-  idmWapParams: DateInterval;
-  idmSummaryParams: DateInterval;
-  bpmSmpParams: DateInterval;
-  fdppParams: DateInterval;
-  rtgParams: DateInterval;
-  dppIunParams: string;
+  dateIntervalParams: Record<DateIntervalReportKey, DateInterval>;
+  activeReportKey?: ReportKey;
 }
 
 const todayFormatted = format(new Date(), "yyyy-MM-dd");
@@ -19,51 +14,37 @@ const defaultDateInterval = {
 };
 
 const initialState: ParamState = {
-  damMcpParams: defaultDateInterval,
-  idmWapParams: defaultDateInterval,
-  idmSummaryParams: defaultDateInterval,
-  bpmSmpParams: defaultDateInterval,
-  fdppParams: defaultDateInterval,
-  rtgParams: defaultDateInterval,
-  dppIunParams: todayFormatted,
+  dateIntervalParams: {
+    "dam-mcp": defaultDateInterval,
+    "idm-wap": defaultDateInterval,
+    "idm-mq": defaultDateInterval,
+    "idm-sum": defaultDateInterval,
+    "bpm-smp": defaultDateInterval,
+    fdpp: defaultDateInterval,
+    rtg: defaultDateInterval,
+  },
+  activeReportKey: "dam-mcp",
 };
 
 const paramSlice = createSlice({
   name: "param",
   initialState,
   reducers: {
-    setDamMcpParams: (state, action: PayloadAction<DateInterval>) => {
-      state.damMcpParams = action.payload;
+    setDateIntervalParams(
+      state,
+      action: PayloadAction<{
+        key: DateIntervalReportKey;
+        params: DateInterval;
+      }>
+    ) {
+      state.dateIntervalParams[action.payload.key] = action.payload.params;
     },
-    setIdmWapParams: (state, action: PayloadAction<DateInterval>) => {
-      state.idmWapParams = action.payload;
-    },
-    setIdmSummaryParams: (state, action: PayloadAction<DateInterval>) => {
-      state.idmSummaryParams = action.payload;
-    },
-    setBpmSmpParams: (state, action: PayloadAction<DateInterval>) => {
-      state.bpmSmpParams = action.payload;
-    },
-    setFdppParams: (state, action: PayloadAction<DateInterval>) => {
-      state.fdppParams = action.payload;
-    },
-    setRtgParams: (state, action: PayloadAction<DateInterval>) => {
-      state.rtgParams = action.payload;
-    },
-    setDppIunParams: (state, action: PayloadAction<string>) => {
-      state.dppIunParams = action.payload;
+    setActiveReportKey: (state, action: PayloadAction<ReportKey>) => {
+      state.activeReportKey = action.payload;
     },
   },
 });
 
-export const {
-  setDamMcpParams,
-  setIdmWapParams,
-  setIdmSummaryParams,
-  setBpmSmpParams,
-  setFdppParams,
-  setRtgParams,
-  setDppIunParams,
-} = paramSlice.actions;
+export const { setDateIntervalParams, setActiveReportKey } = paramSlice.actions;
 
 export default paramSlice.reducer;

@@ -1,42 +1,23 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ReportState {
-  reports: Report[];
-  activeReportName: string;
+  reportListingInfo: ReportHierarchyItem[];
 }
 
 const initialState: ReportState = {
-  reports: [
-    {
-      id: "",
-      name: "",
-      description: "",
-      createdAt: "",
-      updatedAt: "",
-      // user: {
-      //   id: "",
-      //   name: "",
-      //   email: "",
-      // },
-      isLoading: false,
-    },
-  ],
-  activeReportName: "",
+  reportListingInfo: [],
 };
 
 const reportSlice = createSlice({
   name: "report",
   initialState,
   reducers: {
-    setReport: (state, action: PayloadAction<Report>) => {
-      state.reports.push(action.payload);
-    },
-    setActiveReportName: (state, action: PayloadAction<string>) => {
-      state.activeReportName = action.payload;
+    setReports: (state, action: PayloadAction<ReportHierarchyItem[]>) => {
+      state.reportListingInfo = action.payload;
     },
   },
 });
 
-export const { setReport } = reportSlice.actions;
+export const { setReports } = reportSlice.actions;
 
 export default reportSlice.reducer;

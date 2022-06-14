@@ -5,15 +5,22 @@ type XOR<T, U> = T | U extends object
 
 type ReportHierarchyItem = XOR<FolderRoute, ReportRoute>;
 
-const reportNames = [
-  "dam-mcp",
-  "idm-wap",
-  "idm-mq",
-  "idm-sum",
-  "bpm-smp",
-  "fdpp",
-  "rtg",
-  "dpporg",
-  "dppiun",
-] as const;
-type ReportKey = typeof reportNames[number];
+type ReportKey =
+  | "dam-mcp"
+  | "idm-wap"
+  | "idm-mq"
+  | "idm-sum"
+  | "bpm-smp"
+  | "fdpp"
+  | "rtg"
+  | "dpporg"
+  | "dppiun";
+
+type DateIntervalReportKey =
+  | "dam-mcp"
+  | "idm-wap"
+  | "idm-mq"
+  | "idm-sum"
+  | "bpm-smp"
+  | "fdpp"
+  | "rtg";

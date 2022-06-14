@@ -12,6 +12,7 @@ const initialState: AuthState = {
     email: "",
     languageCode: "",
     isActive: true,
+    isAdmin: false,
     roles: [],
     token: window.localStorage.getItem("token") ?? "",
   },

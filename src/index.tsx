@@ -1,5 +1,5 @@
 import "./index.css";
-import "./config/chartjs";
+import "./config/chartjs.config";
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
@@ -7,6 +7,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ThemeProvider } from "@mui/material";
+import lightTheme from "./themes/lightTheme";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store/store";
 
@@ -16,10 +18,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <CssBaseline />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

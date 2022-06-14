@@ -1,16 +1,14 @@
 import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 import { Fragment, useState } from "react";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { ChartDataOptions } from "../../utils/chartUtils";
 import CustomMuiGrid from "../custom/CustomMuiGrid";
 import DateIntervalForm from "../DateIntervalForm";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import LineChart from "../charts/LineChart";
 import format from "date-fns/format";
 import { parse } from "date-fns";
-import { setIdmSummaryParams } from "../../store/paramSlice";
+import { useAppSelector } from "../../hooks";
 import { useGetIntraDaySummary } from "../../services/reportService";
 
 interface SummaryConfig {
@@ -29,21 +27,13 @@ const IntraDaySumView = () => {
   });
   const [select, setSelect] = useState<string>("volume");
 
-  const params = useAppSelector((state) => state.param.idmSummaryParams);
-  const dispatch = useAppDispatch();
-  const { data, isLoading, isError, error } = useGetIntraDaySummary({
+  const params = useAppSelector(
+    (state) => state.param.dateIntervalParams["idm-sum"]
+  );
+  const { data, isLoading } = useGetIntraDaySummary({
     startDate: params.startDate,
     endDate: params.endDate,
   });
-
-  const handleSubmit = (startDate: Date, endDate: Date) => {
-    dispatch(
-      setIdmSummaryParams({
-        startDate: format(startDate, "yyyy-MM-dd"),
-        endDate: format(endDate, "yyyy-MM-dd"),
-      })
-    );
-  };
 
   const handleTableTypeChange = (e: SelectChangeEvent) => {
     const tableType = e.target.value;
@@ -81,14 +71,10 @@ const IntraDaySumView = () => {
             let date = label.slice(2).split("-")[0];
             date = format(
               parse(date, "yyMMddHH", new Date()),
-              "dd.MM.yyyy HH:mm z"
+              "Pp" // TODO get timezone
             );
             return `${label} - ${date}`;
           },
-          // label: (tooltipItem: any) => {
-          //   const d = tooltipItem.dataset;
-          //   return `${d.label}: ${d.data[tooltipItem.dataIndex]} MWh`;
-          // },
         },
       },
     },
@@ -97,7 +83,6 @@ const IntraDaySumView = () => {
   const chartDataOptions: ChartDataOptions = {
     valuePropNames: config.valuePropNames,
     datasetLabels: config.datasetLabels,
-    // labelCb: (label: string) => format(new Date(label), "dd.MM.yyyy HH:mm z"),
   };
 
   const tableTypes = Object.getOwnPropertyNames(
@@ -107,34 +92,34 @@ const IntraDaySumView = () => {
   return (
     <Fragment>
       <CustomMuiGrid variant="large" direction="row">
-        <DateIntervalForm onSubmit={handleSubmit} />
+        <DateIntervalForm />
         {data && (
           <Select
             id="summary-table-select"
             value={select}
             onChange={handleTableTypeChange}
           >
-            {tableTypes.map((propName) => {
+            {tableTypes.map((propName, index) => {
               let menuName = propName.replace(/([A-Z])/g, " $1");
               menuName = menuName.charAt(0).toUpperCase() + menuName.slice(1);
 
-              return <MenuItem value={propName}>{menuName}</MenuItem>;
+              return (
+                <MenuItem key={index} value={propName}>
+                  {menuName}
+                </MenuItem>
+              );
             })}
           </Select>
         )}
       </CustomMuiGrid>
       <CustomMuiGrid variant="large">
-        {!isError ? (
-          <LineChart
-            data={data?.intraDaySummaryList}
-            labelPropName="contract"
-            isLoading={isLoading}
-            chartOptions={chartOptions}
-            chartDataOptions={chartDataOptions}
-          />
-        ) : (
-          <div>{((error as FetchBaseQueryError).data as any).message}</div>
-        )}
+        <LineChart
+          data={data?.intraDaySummaryList}
+          labelPropName="contract"
+          isLoading={isLoading}
+          chartOptions={chartOptions}
+          chartDataOptions={chartDataOptions}
+        />
       </CustomMuiGrid>
     </Fragment>
   );

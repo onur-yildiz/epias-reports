@@ -1,4 +1,5 @@
-import { FC, FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Button from "@mui/material/Button";
@@ -6,18 +7,39 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import format from "date-fns/format";
+import { setDateIntervalParams } from "../store/paramSlice";
 
-interface DateInputProps {
-  onSubmit: (startDate: Date, endDate: Date) => void;
-}
+const DateIntervalForm = () => {
+  const dispatch = useAppDispatch();
+  const [reportKey, params] = useAppSelector((state) => {
+    const activeKey = state.param.activeReportKey as DateIntervalReportKey;
+    return [activeKey, state.param.dateIntervalParams[activeKey]];
+  });
 
-const DateIntervalForm: FC<DateInputProps> = (props: DateInputProps) => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    new Date(params.startDate)
+  );
+  const [endDate, setEndDate] = useState<Date | null>(new Date(params.endDate));
+
+  useEffect(() => {
+    setStartDate(new Date(params.startDate));
+    setEndDate(new Date(params.endDate));
+  }, [params]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    startDate && endDate && props.onSubmit(startDate, endDate);
+    startDate &&
+      endDate &&
+      dispatch(
+        setDateIntervalParams({
+          key: reportKey,
+          params: {
+            startDate: format(startDate, "yyyy-MM-dd"),
+            endDate: format(endDate, "yyyy-MM-dd"),
+          },
+        })
+      );
   };
 
   return (
@@ -40,7 +62,7 @@ const DateIntervalForm: FC<DateInputProps> = (props: DateInputProps) => {
           onError={() => {
             setStartDate(null);
           }}
-          renderInput={(params) => <TextField {...params} error={!startDate} />}
+          renderInput={(p) => <TextField {...p} error={!startDate} />}
         />
         <DatePicker
           label="End Date"
@@ -54,7 +76,7 @@ const DateIntervalForm: FC<DateInputProps> = (props: DateInputProps) => {
           onError={() => {
             setEndDate(null);
           }}
-          renderInput={(params) => <TextField {...params} error={!endDate} />}
+          renderInput={(p) => <TextField {...p} error={!endDate} />}
         />
       </LocalizationProvider>
       <Button

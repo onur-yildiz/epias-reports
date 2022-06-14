@@ -8,6 +8,7 @@ interface DrawerListButtonProps {
   primary: string;
   path: string;
   secondary?: string;
+  emphasize?: boolean;
 }
 
 const DrawerListButton: FC<DrawerListButtonProps> = (
@@ -22,9 +23,15 @@ const DrawerListButton: FC<DrawerListButtonProps> = (
           secondary={props.secondary}
           primaryTypographyProps={{
             variant: "button",
-            color: "primary.main",
+            color: props.emphasize ? "primary.dark" : "primary.main",
+            // textAlign: props.emphasize ? "center" : "initial",
+            fontSize: props.emphasize ? "h6.fontSize" : "body2.fontSize",
+            fontWeight: props.emphasize ? "bolder" : "bold",
           }}
-          secondaryTypographyProps={{ variant: "caption", noWrap: true }}
+          secondaryTypographyProps={{
+            variant: "caption",
+            noWrap: true,
+          }}
         />
       </Tooltip>
     </ListItemButton>

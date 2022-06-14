@@ -1,12 +1,13 @@
 interface FolderRoute {
-  order: number;
-  folderName: LocalizedName[];
-  children: ReportHierarchyItem[];
+  order: string;
+  name: LocalizedName[];
+  children?: ReportHierarchyItem[];
 }
 
 interface ReportRoute {
-  order: number;
-  reportKey: ReportKey;
-  reportName: LocalizedName[];
-  path: string;
+  order: string;
+  key: ReportKey;
+  roles: string[];
+  name: LocalizedName[];
+  isActive: boolean;
 }
