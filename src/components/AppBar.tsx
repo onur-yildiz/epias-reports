@@ -52,6 +52,7 @@ const AppBar: FC<AppBarProps> = (props: AppBarProps) => {
   const handleAuthAction = () => {
     if (isAuth) {
       dispatch(logout());
+      window.location.replace("/");
     } else {
       navigate("/login");
     }
