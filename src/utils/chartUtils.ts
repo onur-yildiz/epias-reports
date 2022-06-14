@@ -1,5 +1,7 @@
 import { ChartData, ScatterDataPoint } from "chart.js";
 
+import format from "date-fns/format";
+
 const defaultColors = [
   ["#ff121e", "#ff5c44"],
   ["#1a9b2a", "#3eb542"],
@@ -126,6 +128,15 @@ export const addTooltipLabelSuffix = (tooltipItem: any, suffix: string) => {
       ? d.data[tooltipItem.dataIndex].toLocaleString()
       : d.data[tooltipItem.dataIndex];
   return `${d.label}: ${value} ${suffix}`;
+};
+
+export const defaultDateLabelCallback = (tooltipItem: any) => {
+  const date = new Date(tooltipItem[0].label);
+  const formattedDate = format(
+    date,
+    "Pp" // TODO get timezone
+  );
+  return `${formattedDate}`;
 };
 
 const chartUtils = {

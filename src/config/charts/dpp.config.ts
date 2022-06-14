@@ -6,6 +6,7 @@ import {
 import {
   ChartDataOptions,
   addTooltipLabelSuffix,
+  defaultDateLabelCallback,
 } from "../../utils/chartUtils";
 
 const chartOptions = {
@@ -24,6 +25,7 @@ const chartOptions = {
     },
     tooltip: {
       callbacks: {
+        title: defaultDateLabelCallback,
         label: (tooltipItem: any) => {
           return addTooltipLabelSuffix(tooltipItem, "MWh");
         },

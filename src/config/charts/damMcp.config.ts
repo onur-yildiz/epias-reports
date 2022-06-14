@@ -1,6 +1,7 @@
 import {
   ChartDataOptions,
   addTooltipLabelSuffix,
+  defaultDateLabelCallback,
 } from "../../utils/chartUtils";
 import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 
@@ -15,6 +16,7 @@ const chartOptions = {
     },
     tooltip: {
       callbacks: {
+        title: defaultDateLabelCallback,
         label: (tooltipItem: any) => {
           return addTooltipLabelSuffix(
             tooltipItem,
