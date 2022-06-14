@@ -1,5 +1,6 @@
 import { PropsWithChildren, useState } from "react";
 
+import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -25,7 +26,9 @@ const DrawerListFolder = (props: PropsWithChildren<DrawerListFolderProps>) => {
   return (
     <List dense disablePadding>
       <ListItemButton onClick={handleClick}>
-        <ExpandButton />
+        <Box sx={{ mr: 0.5 }}>
+          <ExpandButton />
+        </Box>
         <ListItemText
           primary={props.primary}
           // secondary={props.secondary}

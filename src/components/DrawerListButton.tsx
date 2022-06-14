@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import { FC } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -9,6 +10,7 @@ interface DrawerListButtonProps {
   path: string;
   secondary?: string;
   emphasize?: boolean;
+  icon?: React.ReactElement;
 }
 
 const DrawerListButton: FC<DrawerListButtonProps> = (
@@ -17,6 +19,16 @@ const DrawerListButton: FC<DrawerListButtonProps> = (
   const navigate = useNavigate();
   return (
     <ListItemButton onClick={() => navigate(props.path)}>
+      <Box
+        sx={{
+          "& *": {
+            color: "primary.main",
+            mr: 0.5,
+          },
+        }}
+      >
+        {props.icon}
+      </Box>
       <Tooltip title={props.secondary ?? props.primary} placement="right" arrow>
         <ListItemText
           primary={props.primary}
