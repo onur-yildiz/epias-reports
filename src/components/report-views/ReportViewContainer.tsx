@@ -45,10 +45,11 @@ const ReportViewContainer = () => {
   const [component, setComponent] = useState<JSX.Element>(
     <Container>404 Not Found</Container>
   );
-  const [reportRoute, userRoles] = useAppSelector((state) => {
+  const [reportRoute, userRoles, isAdmin] = useAppSelector((state) => {
     return [
       state.report.reportListingInfo.find((r) => r.key === reportKey),
       state.auth.user.roles,
+      state.auth.user.isAdmin,
     ];
   });
   const dispatch = useAppDispatch();
@@ -58,9 +59,10 @@ const ReportViewContainer = () => {
     setComponent(getReportView(reportKey as ReportKey));
   }, [reportKey, dispatch]);
 
-  const show = reportRoute?.roles
-    ? reportRoute.roles.every((r) => userRoles.includes(r))
-    : true;
+  const show =
+    reportRoute?.roles && !isAdmin
+      ? reportRoute.roles.every((r) => userRoles.includes(r))
+      : true;
   return (
     <Container maxWidth="lg" sx={{ mt: 8, mb: 8 }}>
       <Grid container spacing={3}>
