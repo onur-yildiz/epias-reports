@@ -27,7 +27,7 @@ const UserPanelDrawerList = () => {
         emphasize
       />
       {isAdmin && (
-        <DrawerListFolder primary="ADMIN SETTINGS">
+        <DrawerListFolder primary="Admin Settings">
           <DrawerListButton primary="Users" path="admin/users" />
           <DrawerListButton primary="Reports" path="admin/reports" />
           <DrawerListButton primary="Roles" path="admin/roles" />

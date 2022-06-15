@@ -34,10 +34,8 @@ const DrawerListButton: FC<DrawerListButtonProps> = (
           primary={props.primary}
           secondary={props.secondary}
           primaryTypographyProps={{
-            variant: "button",
+            variant: props.emphasize ? "subtitle1" : "subtitle2",
             color: props.emphasize ? "primary.dark" : "primary.main",
-            // textAlign: props.emphasize ? "center" : "initial",
-            fontSize: props.emphasize ? "h6.fontSize" : "body2.fontSize",
             fontWeight: props.emphasize ? "bolder" : "bold",
           }}
           secondaryTypographyProps={{
