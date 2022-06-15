@@ -10,6 +10,7 @@ import Register from "./screens/Register";
 import ReportViewContainer from "./components/report-views/ReportViewContainer";
 import ReportsDashboard from "./screens/ReportsDashboard";
 import ReportsTable from "./components/ReportsTable";
+import RolesTable from "./components/RolesTable";
 import StatusCode from "./components/StatusCode";
 import UsersTable from "./components/UsersTable";
 import { setUser } from "./store/authSlice";
@@ -54,6 +55,10 @@ function App() {
             element={
               user.isAdmin ? <ReportsTable /> : <StatusCode value={403} />
             }
+          />
+          <Route
+            path="admin/roles"
+            element={user.isAdmin ? <RolesTable /> : <StatusCode value={403} />}
           />
         </Route>
         <Route path="/login" element={isAuth ? <RedirectHome /> : <Login />} />

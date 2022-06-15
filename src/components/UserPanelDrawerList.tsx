@@ -30,6 +30,7 @@ const UserPanelDrawerList = () => {
         <DrawerListFolder primary="ADMIN SETTINGS">
           <DrawerListButton primary="Users" path="admin/users" />
           <DrawerListButton primary="Reports" path="admin/reports" />
+          <DrawerListButton primary="Roles" path="admin/roles" />
         </DrawerListFolder>
       )}
     </List>
