@@ -12,13 +12,15 @@ import {
 
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
+import DelayedSnackbar from "./DelayedSnackbar";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 
 const RolesTable = () => {
   const gridRef = useRef() as LegacyRef<AgGridReact> | undefined;
   const { data: roles } = useGetRoles();
-  const [removeRole] = useRemoveRole();
+  const [removeRole, { isLoading: isLoadingRemoveRole }] = useRemoveRole();
+  const [createRole, { isLoading: isLoadingCreateRole }] = useCreateRole();
   const [columnDefs] = useState<ColDef[]>([
     { field: "name", editable: true, flex: 1 },
   ]);
@@ -57,7 +59,12 @@ const RolesTable = () => {
         spacing={1}
         justifyContent="space-between"
       >
-        {gridRef && <AddRoleForm gridApi={(gridRef as any).current?.api} />}
+        {gridRef && (
+          <AddRoleForm
+            gridApi={(gridRef as any).current?.api}
+            onAdd={createRole}
+          />
+        )}
         <Button
           variant="contained"
           color="error"
@@ -74,18 +81,21 @@ const RolesTable = () => {
         rowSelection="single"
         isRowSelectable={() => true}
       />
+      <DelayedSnackbar
+        open={isLoadingRemoveRole || isLoadingCreateRole}
+        message="Updating roles..."
+      />
     </Stack>
   );
 };
 
-const AddRoleForm = ({ gridApi }: { gridApi: GridApi }) => {
+const AddRoleForm = ({ gridApi, onAdd }: { gridApi: GridApi; onAdd: any }) => {
   const [newRoleValue, setNewRoleValue] = useState("");
-  const [createRole] = useCreateRole();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await createRole({ name: newRoleValue }).unwrap();
+      await onAdd({ name: newRoleValue }).unwrap();
       gridApi.applyTransaction({
         add: [{ name: newRoleValue }],
       });

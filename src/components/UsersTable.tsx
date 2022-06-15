@@ -12,13 +12,15 @@ import {
 
 import { AgGridReact } from "ag-grid-react";
 import Box from "@mui/material/Box";
+import DelayedSnackbar from "./DelayedSnackbar";
 import RoleSelectDialog from "./RoleSelectDialog";
 
 const UsersTable = () => {
   const [isRoleSelectOpen, setIsRoleSelectOpen] = useState(false);
   const [selectedUserRoles, setSelectedUserRoles] = useState<string[]>([]);
   const [activeRow, setActiveRow] = useState<RowNode | null>();
-  const [updateIsActive] = useLazyUpdateAccountIsActive();
+  const [updateIsActive, { isLoading: isLoadingIsActive }] =
+    useLazyUpdateAccountIsActive();
   const [updateRoles, { isLoading: isLoadingRoles }] =
     useLazyUpdateAccountRoles();
   const { data } = useGetUsers();
@@ -31,15 +33,14 @@ const UsersTable = () => {
 
   const onRoleSelectionClose = async (roles?: string[]) => {
     if (roles) {
-      const prevRoles = activeRow?.data.roles;
-      activeRow?.setDataValue("roles", roles);
       try {
         await updateRoles({
           assigneeEmail: activeRow?.data?.email,
           roles,
         }).unwrap();
+        activeRow?.setDataValue("roles", roles);
       } catch (error) {
-        activeRow?.setDataValue("roles", prevRoles);
+        console.error(error);
       }
     }
 
@@ -47,8 +48,8 @@ const UsersTable = () => {
   };
 
   const [columnDefs] = useState<ColDef[]>([
-    { field: "name" },
-    { field: "email" },
+    { field: "name", flex: 1 },
+    { field: "email", flex: 1 },
     {
       field: "roles",
       onCellClicked: (event) => {
@@ -60,8 +61,9 @@ const UsersTable = () => {
         if (params.data.roles.length === 0) return "-";
         else return params.data.roles.join(", ");
       },
+      flex: 1,
     },
-    { field: "isAdmin" },
+    { field: "isAdmin", flex: 1 },
     {
       field: "isActive",
       editable: true,
@@ -76,13 +78,13 @@ const UsersTable = () => {
     onCellEditRequest: async (event) => {
       if (event.colDef.field === "isActive") {
         try {
-          event.node.setDataValue("isActive", event.newValue);
           await updateIsActive({
             assigneeEmail: event.data.email,
             isActive: event.newValue,
           }).unwrap();
+          event.node.setDataValue("isActive", event.newValue);
         } catch (error) {
-          event.node.setDataValue("isActive", event.oldValue);
+          console.error(error);
         }
       }
     },
@@ -108,6 +110,10 @@ const UsersTable = () => {
         onClose={onRoleSelectionClose}
         roles={selectedUserRoles}
         isLoading={isLoadingRoles}
+      />
+      <DelayedSnackbar
+        open={isLoadingIsActive}
+        message="Updating user state..."
       />
     </Fragment>
   );

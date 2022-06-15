@@ -12,6 +12,7 @@ import {
 
 import { AgGridReact } from "ag-grid-react";
 import Box from "@mui/material/Box";
+import DelayedSnackbar from "./DelayedSnackbar";
 import RoleSelectDialog from "./RoleSelectDialog";
 
 const ReportsTable = () => {
@@ -20,7 +21,8 @@ const ReportsTable = () => {
   const [activeRow, setActiveRow] = useState<RowNode | null>();
   const [updateRoles, { isLoading: isLoadingRoles }] =
     useLazyUpdateReportRoles();
-  const [updateIsActive] = useUpdateReportIsActive();
+  const [updateIsActive, { isLoading: isLoadingIsActive }] =
+    useUpdateReportIsActive();
   const { data } = useGetReports();
 
   const trueFalseSelector = (_: any) => ({
@@ -31,15 +33,14 @@ const ReportsTable = () => {
 
   const onRoleSelectionClose = async (roles?: string[]) => {
     if (roles) {
-      const prevRoles = activeRow?.data.roles;
-      activeRow?.setDataValue("roles", roles);
       try {
         await updateRoles({
           key: activeRow?.data?.key,
           roles,
         }).unwrap();
+        activeRow?.setDataValue("roles", roles);
       } catch (error) {
-        activeRow?.setDataValue("roles", prevRoles);
+        console.error(error);
       }
     }
 
@@ -47,12 +48,13 @@ const ReportsTable = () => {
   };
 
   const [columnDefs] = useState<ColDef[]>([
-    { field: "key" },
+    { field: "key", flex: 1 },
     {
       field: "name",
       cellRenderer: (params: any) => {
         return params.data.name[0].short;
       },
+      flex: 1,
     },
     {
       field: "roles",
@@ -65,6 +67,7 @@ const ReportsTable = () => {
         if (params.data.roles.length === 0) return "-";
         else return params.data.roles.join(", ");
       },
+      flex: 1,
     },
     {
       field: "isActive",
@@ -80,13 +83,13 @@ const ReportsTable = () => {
     onCellEditRequest: async (event) => {
       if (event.colDef.field === "isActive") {
         try {
-          event.node.setDataValue("isActive", event.newValue);
           await updateIsActive({
             key: event.data.key,
             isActive: event.newValue,
           }).unwrap();
+          event.node.setDataValue("isActive", event.newValue);
         } catch (error) {
-          event.node.setDataValue("isActive", event.oldValue);
+          console.error(error);
         }
       }
     },
@@ -112,6 +115,10 @@ const ReportsTable = () => {
         onClose={onRoleSelectionClose}
         roles={selectedReportRoles}
         isLoading={isLoadingRoles}
+      />
+      <DelayedSnackbar
+        open={isLoadingIsActive}
+        message="Updating report state..."
       />
     </Fragment>
   );
