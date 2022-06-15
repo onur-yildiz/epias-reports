@@ -24,7 +24,7 @@ const ReportsDashboard = () => {
   };
 
   useEffect(() => {
-    const report = reportRoutes.find(
+    const report = reportRoutes?.find(
       (p) => p.key === location.pathname.slice(1)
     );
     setTitle(report ? report.name[0].long : location.pathname.slice(1));

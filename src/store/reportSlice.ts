@@ -1,12 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ReportState {
-  reportListingInfo: ReportHierarchyItem[];
+  reportListingInfo?: ReportHierarchyItem[];
 }
 
-const initialState: ReportState = {
-  reportListingInfo: [],
-};
+const initialState: ReportState = {};
 
 const reportSlice = createSlice({
   name: "report",

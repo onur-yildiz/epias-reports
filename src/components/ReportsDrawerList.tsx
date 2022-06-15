@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DrawerListButton from "./DrawerListButton";
 import DrawerListFolder from "./DrawerListFolder";
 import { List } from "@mui/material";
+import ListSkeleton from "./ListSkeleton";
 import { createMenu } from "../utils/menu";
 import { useAppSelector } from "../hooks";
 
@@ -13,6 +14,7 @@ const ReportsDrawerList = () => {
   );
 
   useEffect(() => {
+    if (!reportRoutes) return;
     const menu = createMenu(
       reportRoutes
         .map((r) => ({ ...r }))
@@ -50,6 +52,7 @@ const ReportsDrawerList = () => {
     setListItems(generateListItems(menu));
   }, [reportRoutes]);
 
+  if (!reportRoutes) return <ListSkeleton />;
   return <List component="nav">{listItems}</List>;
 };
 

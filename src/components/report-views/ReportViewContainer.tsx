@@ -47,7 +47,7 @@ const ReportViewContainer = () => {
   );
   const [reportRoute, userRoles, isAdmin] = useAppSelector((state) => {
     return [
-      state.report.reportListingInfo.find((r) => r.key === reportKey),
+      state.report.reportListingInfo?.find((r) => r.key === reportKey),
       state.auth.user.roles,
       state.auth.user.isAdmin,
     ];
