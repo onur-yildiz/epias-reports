@@ -94,10 +94,12 @@ const AddRoleForm = ({ gridApi, onAdd }: { gridApi: GridApi; onAdd: any }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const name = newRoleValue.trim();
+    if (name.length === 0) return;
     try {
-      await onAdd({ name: newRoleValue }).unwrap();
+      await onAdd({ name: name }).unwrap();
       gridApi.applyTransaction({
-        add: [{ name: newRoleValue }],
+        add: [{ name: name }],
       });
     } catch (error) {
       console.error(error);
