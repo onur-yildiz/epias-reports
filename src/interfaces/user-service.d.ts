@@ -28,6 +28,7 @@ interface BaseUser {
   isAdmin: boolean;
   languageCode: string;
   roles: string[];
+  apiKeys: string[];
 }
 
 interface AuthUser extends BaseUser {

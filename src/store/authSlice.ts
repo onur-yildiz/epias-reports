@@ -14,6 +14,7 @@ const initialState: AuthState = {
     isActive: true,
     isAdmin: false,
     roles: [],
+    apiKeys: [],
     token: window.localStorage.getItem("token") ?? "",
   },
   isAuthenticated: false,
