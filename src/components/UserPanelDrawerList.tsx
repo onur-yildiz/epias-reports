@@ -1,8 +1,7 @@
 import Button from "@mui/material/Button";
 import DrawerListButton from "./DrawerListButton";
-import DrawerListFolder from "./DrawerListFolder";
+import { Fragment } from "react";
 import List from "@mui/material/List";
-import Person from "@mui/icons-material/Person";
 import { useAppSelector } from "../hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -20,18 +19,13 @@ const UserPanelDrawerList = () => {
       >
         back to dashboard
       </Button>
-      <DrawerListButton
-        icon={<Person />}
-        primary="Profile"
-        path="profile"
-        emphasize
-      />
+      <DrawerListButton primary="Profile" path="profile" emphasize />
       {isAdmin && (
-        <DrawerListFolder primary="Admin Settings">
-          <DrawerListButton primary="Users" path="admin/users" />
-          <DrawerListButton primary="Reports" path="admin/reports" />
-          <DrawerListButton primary="Roles" path="admin/roles" />
-        </DrawerListFolder>
+        <Fragment>
+          <DrawerListButton primary="Users" path="admin/users" emphasize />
+          <DrawerListButton primary="Reports" path="admin/reports" emphasize />
+          <DrawerListButton primary="Roles" path="admin/roles" emphasize />
+        </Fragment>
       )}
     </List>
   );
