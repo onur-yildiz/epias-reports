@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: User;
+  user: AuthUser;
 }
 
 const initialState: AuthState = {
@@ -23,7 +23,7 @@ const reportSlice = createSlice({
   name: "report",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<AuthUser>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
       window.localStorage.setItem("token", state.user.token);
