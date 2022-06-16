@@ -1,24 +1,30 @@
 import baseApi from "./baseApiService";
 
 enum RE { // Report Endpoints
-  McpSmp = "reports/mcpsmp",
-  DayAheadMcp = "reports/dayaheadmcp",
-  Rtg = "reports/realtimegeneration",
-  DppOrg = "reports/dpporganization",
-  DppInjUnitName = "reports/dppinjectionunitname",
-  Dpp = "reports/dpp",
-  IntraDayWap = "reports/intradayaof",
-  IntraDaySummary = "reports/intradaysummary",
-  IntraDayVolSum = "reports/intradayvolumesummary",
-  Smp = "reports/smp",
-  Reports = "/reports/all",
-  UpdateReportRoles = "reports/updateroles",
-  UpdateReportIsActive = "reports/updateisactive",
-  ReportListingInfo = "reports/listinginfo",
+  McpSmp = "reports/mcp-smp",
+  DayAheadMcp = "reports/dam-mcp",
+  Rtg = "reports/rtg",
+  DppOrg = "reports/dpporg",
+  DppInjUnitName = "reports/dppiun",
+  Dpp = "reports/fdpp",
+  IntraDayWap = "reports/idm-wap",
+  IntraDaySummary = "reports/idm-sum",
+  IntraDayVolSum = "reports/idm-vs",
+  Smp = "reports/bpm-smp",
+  Reports = "/reports",
+  ReportListingInfo = "appconfig/report-listing-info",
 }
 
 const reportApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getReportListingInfo: builder.query<ReportHierarchyItem[], void>({
+      query: () => RE.ReportListingInfo,
+      providesTags: ["auth", "report-status"],
+    }),
+    getReports: builder.query<ReportRoute[], void>({
+      query: () => RE.Reports,
+      providesTags: ["auth"],
+    }),
     getMcpSmp: builder.query<McpSmpData, DateInterval>({
       query: (q) =>
         `${RE.McpSmp}?startDate=${q.startDate}&endDate=${q.endDate}`,
@@ -73,27 +79,25 @@ const reportApi = baseApi.injectEndpoints({
       query: (q) => `${RE.Smp}?startDate=${q.startDate}&endDate=${q.endDate}`,
       providesTags: ["auth"],
     }),
-    getReportListingInfo: builder.query<ReportHierarchyItem[], void>({
-      query: () => RE.ReportListingInfo,
-      providesTags: ["auth", "report-status"],
-    }),
-    updateReportRoles: builder.mutation<void, ReportRoleParams>({
-      query: (params) => ({
-        url: RE.UpdateReportRoles,
-        method: "POST",
-        body: params,
+    updateReportRoles: builder.mutation<
+      void,
+      ReportUpdateParams<ReportUpdateRolesBody>
+    >({
+      query: (params: ReportUpdateParams<ReportUpdateRolesBody>) => ({
+        url: `${RE.Reports}/${params.key}/roles`,
+        method: "PATCH",
+        body: params.body,
       }),
       invalidatesTags: ["report-status"],
     }),
-    getReports: builder.query<ReportRoute[], void>({
-      query: () => RE.Reports,
-      providesTags: ["auth"],
-    }),
-    updateReportIsActive: builder.mutation<void, ReportIsActiveParams>({
-      query: (params) => ({
-        url: RE.UpdateReportIsActive,
-        method: "POST",
-        body: params,
+    updateReportIsActive: builder.mutation<
+      void,
+      ReportUpdateParams<ReportUpdateIsActiveBody>
+    >({
+      query: (params: ReportUpdateParams<ReportUpdateIsActiveBody>) => ({
+        url: `${RE.Reports}/${params.key}/is-active`,
+        method: "PATCH",
+        body: params.body,
       }),
       invalidatesTags: ["report-status"],
     }),

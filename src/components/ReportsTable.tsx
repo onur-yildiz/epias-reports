@@ -36,7 +36,7 @@ const ReportsTable = () => {
       try {
         await updateRoles({
           key: activeRow?.data?.key,
-          roles,
+          body: { roles },
         }).unwrap();
         activeRow?.setDataValue("roles", roles);
       } catch (error) {
@@ -85,7 +85,7 @@ const ReportsTable = () => {
         try {
           await updateIsActive({
             key: event.data.key,
-            isActive: event.newValue,
+            body: { isActive: event.newValue },
           }).unwrap();
           event.node.setDataValue("isActive", event.newValue);
         } catch (error) {

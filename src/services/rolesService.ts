@@ -1,29 +1,31 @@
 import baseApi from "./baseApiService";
 
 enum SE { // Settings Endpoints
-  Roles = "/settings/roles",
-  Role = "/settings/role",
+  Roles = "/roles",
 }
 
-const settingsApi = baseApi.injectEndpoints({
+const rolesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getRoles: builder.query<Role[], void>({
       query: () => SE.Roles,
       providesTags: ["role-status"],
     }),
+    getRole: builder.query<Role, Role>({
+      query: (role) => `${SE.Roles}/${role.name}`,
+      providesTags: ["role-status"],
+    }),
     createRole: builder.mutation<void, Role>({
-      query: (params) => ({
-        url: SE.Role,
+      query: (role) => ({
+        url: SE.Roles,
         method: "POST",
-        body: params,
+        body: role,
       }),
       invalidatesTags: ["role-status"],
     }),
     removeRole: builder.mutation<void, Role>({
-      query: (params) => ({
-        url: SE.Role,
+      query: (role) => ({
+        url: `${SE.Roles}/${role.name}`,
         method: "DELETE",
-        body: params,
       }),
       invalidatesTags: ["report-status", "user-status", "role-status"],
     }),
@@ -34,6 +36,6 @@ export const {
   useGetRolesQuery: useGetRoles,
   useCreateRoleMutation: useCreateRole,
   useRemoveRoleMutation: useRemoveRole,
-} = settingsApi;
+} = rolesApi;
 
-export default settingsApi;
+export default rolesApi;

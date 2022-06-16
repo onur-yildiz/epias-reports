@@ -1,17 +1,19 @@
 import baseApi from "./baseApiService";
 
 enum UE { // User Endpoints
-  Login = "user/login",
-  RefreshToken = "user/refreshtoken",
-  Register = "user/register",
-  UpdateRoles = "user/updateroles",
-  UpdateIsActive = "user/updateisactive",
-  All = "user/all",
+  Users = "users",
+  Login = "users/login",
+  Register = "users/register",
+  RefreshToken = "users/refresh-token",
 }
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<User, LoginCredentials>({
+    getUsers: builder.query<BaseUser[], void>({
+      query: () => ({ url: UE.Users, method: "GET" }),
+      providesTags: ["user-status"],
+    }),
+    login: builder.mutation<AuthUser, LoginCredentials>({
       query: (credentials) => ({
         url: UE.Login,
         method: "POST",
@@ -19,14 +21,7 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["auth"],
     }),
-    refreshToken: builder.mutation<User, void>({
-      query: () => ({
-        url: UE.RefreshToken,
-        method: "POST",
-      }),
-      invalidatesTags: ["auth"],
-    }),
-    register: builder.mutation<User, RegisterCredentials>({
+    register: builder.mutation<AuthUser, RegisterCredentials>({
       query: (credentials) => ({
         url: UE.Register,
         method: "POST",
@@ -34,25 +29,34 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["auth"],
     }),
-    updateAccountRoles: builder.mutation<void, UserRoleParams>({
-      query: (params) => ({
-        url: UE.UpdateRoles,
+    refreshToken: builder.mutation<AuthUser, void>({
+      query: () => ({
+        url: UE.RefreshToken,
         method: "POST",
-        body: params,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    updateAccountRoles: builder.mutation<
+      void,
+      UserUpdateParams<UserUpdateRolesBody>
+    >({
+      query: (params) => ({
+        url: `${UE.Users}/${params.userId}/roles`,
+        method: "PATCH",
+        body: params.body,
       }),
       invalidatesTags: ["user-status"],
     }),
-    updateAccountIsActive: builder.mutation<any, UpdateIsActiveParams>({
+    updateAccountIsActive: builder.mutation<
+      any,
+      UserUpdateParams<UserUpdateIsActiveBody>
+    >({
       query: (params) => ({
-        url: UE.UpdateIsActive,
-        method: "POST",
-        body: params,
+        url: `${UE.Users}/${params.userId}/is-active`,
+        method: "PATCH",
+        body: params.body,
       }),
       invalidatesTags: ["user-status"],
-    }),
-    getUsers: builder.query<AdminServicableUserData[], void>({
-      query: () => ({ url: UE.All, method: "GET" }),
-      providesTags: ["user-status"],
     }),
   }),
 });

@@ -9,7 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import { useGetRoles } from "../services/settingsService";
+import { useGetRoles } from "../services/rolesService";
 
 export interface RowSelectDialogProps {
   id: string;

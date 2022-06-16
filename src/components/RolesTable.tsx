@@ -8,7 +8,7 @@ import {
   useCreateRole,
   useGetRoles,
   useRemoveRole,
-} from "../services/settingsService";
+} from "../services/rolesService";
 
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";

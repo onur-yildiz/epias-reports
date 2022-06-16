@@ -35,8 +35,8 @@ const UsersTable = () => {
     if (roles) {
       try {
         await updateRoles({
-          assigneeEmail: activeRow?.data?.email,
-          roles,
+          userId: activeRow?.data?.id,
+          body: { roles },
         }).unwrap();
         activeRow?.setDataValue("roles", roles);
       } catch (error) {
@@ -48,6 +48,7 @@ const UsersTable = () => {
   };
 
   const [columnDefs] = useState<ColDef[]>([
+    { field: "id", flex: 1 },
     { field: "name", flex: 1 },
     { field: "email", flex: 1 },
     {
@@ -79,8 +80,8 @@ const UsersTable = () => {
       if (event.colDef.field === "isActive") {
         try {
           await updateIsActive({
-            assigneeEmail: event.data.email,
-            isActive: event.newValue,
+            userId: event.data.id,
+            body: { isActive: event.newValue },
           }).unwrap();
           event.node.setDataValue("isActive", event.newValue);
         } catch (error) {
