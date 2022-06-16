@@ -5,6 +5,7 @@ enum UE { // User Endpoints
   Login = "users/login",
   Register = "users/register",
   RefreshToken = "users/refresh-token",
+  CreateApiKey = "users/create-api-key",
 }
 
 const userApi = baseApi.injectEndpoints({
@@ -36,6 +37,20 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["auth"],
     }),
+    createApiKey: builder.mutation<string, void>({
+      query: () => ({
+        url: UE.CreateApiKey,
+        method: "POST",
+        responseHandler: "text",
+      }),
+    }),
+    deleteApiKey: builder.mutation<void, string>({
+      query: (apiKey) => ({
+        url: `${UE.Users}/api-keys`,
+        method: "DELETE",
+        body: { apiKey },
+      }),
+    }),
     updateAccountRoles: builder.mutation<
       void,
       UserUpdateParams<UserUpdateRolesBody>
@@ -64,6 +79,8 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation: useLazyLogin,
   useRefreshTokenMutation: useLazyRefreshToken,
+  useCreateApiKeyMutation: useLazyCreateApiKey,
+  useDeleteApiKeyMutation: useLazyDeleteApiKey,
   useRegisterMutation: useLazyRegister,
   useUpdateAccountRolesMutation: useLazyUpdateAccountRoles,
   useUpdateAccountIsActiveMutation: useLazyUpdateAccountIsActive,

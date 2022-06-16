@@ -1,16 +1,52 @@
+import { Delete, Key } from "@mui/icons-material";
+import { addApiKey, removeApiKey } from "../store/authSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import {
+  useLazyCreateApiKey,
+  useLazyDeleteApiKey,
+} from "../services/userService";
+
 import BlockIcon from "@mui/icons-material/Block";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DelayedSnackbar from "./DelayedSnackbar";
+import { IconButton } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import SupervisorAccount from "@mui/icons-material/SupervisorAccount";
 import Typography from "@mui/material/Typography";
-import { useAppSelector } from "../hooks";
+import { useState } from "react";
 
 const ProfileView = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const roles = ["admin", "user", "guest", "admin", "user", "guest"];
+  const dispatch = useAppDispatch();
+  const [isUpdatingApiKeys, setIsUpdatingApiKeys] = useState(false);
+  const [createApiKey] = useLazyCreateApiKey();
+  const [deleteApiKey] = useLazyDeleteApiKey();
+
+  const handleGenerateApiKey = async () => {
+    try {
+      setIsUpdatingApiKeys(true);
+      dispatch(addApiKey(await createApiKey().unwrap()));
+    } catch (error) {
+      console.error(error);
+    }
+    setIsUpdatingApiKeys(false);
+  };
+
+  const handleDeleteApiKey = async (apiKey: string) => {
+    try {
+      setIsUpdatingApiKeys(true);
+      await deleteApiKey(apiKey).unwrap();
+      dispatch(removeApiKey(apiKey));
+    } catch (error) {
+      console.error(error);
+    }
+    setIsUpdatingApiKeys(false);
+  };
+
   return (
-    <Stack spacing={3} sx={{ p: 3 }}>
+    <Stack spacing={3} sx={{ p: 3 }} alignItems="flex-start">
       {!user.isActive && (
         <Paper
           sx={{
@@ -90,7 +126,7 @@ const ProfileView = () => {
             Roles
           </Typography>
           <Stack direction="row" spacing={1}>
-            {roles.map((role) => {
+            {user.roles.map((role) => {
               return (
                 <Paper
                   sx={{ py: 0.5, px: 1, userSelect: "none" }}
@@ -105,6 +141,32 @@ const ProfileView = () => {
           </Stack>
         </Box>
       )}
+      <Stack alignItems="flex-start">
+        <Stack direction="row" alignItems="center" spacing={3}>
+          <Key color="primary" />
+          <Typography variant="h6" color="GrayText" sx={{ mb: 1 }}>
+            API Keys
+          </Typography>
+          <Button
+            onClick={handleGenerateApiKey}
+            disabled={user.apiKeys.length >= 3}
+          >
+            Generate Key
+          </Button>
+        </Stack>
+        {user.apiKeys.map((apiKey) => (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton
+              color="error"
+              onClick={() => handleDeleteApiKey(apiKey)}
+            >
+              <Delete />
+            </IconButton>
+            <Typography display="inline">{apiKey}</Typography>
+          </Stack>
+        ))}
+      </Stack>
+      <DelayedSnackbar open={isUpdatingApiKeys} message="Updating..." />
     </Stack>
   );
 };
