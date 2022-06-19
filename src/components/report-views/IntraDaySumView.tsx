@@ -1,11 +1,12 @@
 import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 import { Fragment, useState } from "react";
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { ChartDataOptions } from "../../utils/chartUtils";
 import CustomMuiGrid from "../custom/CustomMuiGrid";
 import DateIntervalForm from "../DateIntervalForm";
 import LineChart from "../charts/LineChart";
+import MenuItem from "@mui/material/MenuItem";
 import format from "date-fns/format";
 import { parse } from "date-fns";
 import { useAppSelector } from "../../hooks";

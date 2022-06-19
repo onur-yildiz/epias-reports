@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import lightTheme from "./themes/lightTheme";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store/store";

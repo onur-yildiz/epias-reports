@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import DrawerListButton from "./DrawerListButton";
 import DrawerListFolder from "./DrawerListFolder";
-import { List } from "@mui/material";
+import List from "@mui/material/List";
 import ListSkeleton from "./ListSkeleton";
 import { createMenu } from "../utils/menu";
 import { useAppSelector } from "../hooks";

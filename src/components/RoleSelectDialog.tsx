@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
-import { CircularProgress } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
