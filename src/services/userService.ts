@@ -5,7 +5,7 @@ enum UE { // User Endpoints
   Login = "users/login",
   Register = "users/register",
   RefreshToken = "users/refresh-token",
-  CreateApiKey = "users/create-api-key",
+  CreateApiKey = "users/api-keys/create",
 }
 
 const userApi = baseApi.injectEndpoints({
