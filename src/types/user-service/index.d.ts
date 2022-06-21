@@ -12,12 +12,8 @@ interface UserUpdateParams<T> {
   body: T;
 }
 
-interface UserUpdateRolesBody {
-  roles: string[];
-}
-
-interface UserUpdateIsActiveBody {
-  isActive: boolean;
+interface DeleteApiKeyBody {
+  apiKey: string;
 }
 
 interface BaseUser {

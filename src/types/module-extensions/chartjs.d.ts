@@ -1,6 +1,6 @@
 import "chart.js";
 import utils from "chart.js/types/utils";
-import { ChartDataOptions } from "../utils/chartUtils";
+import { ChartDataOptions } from "../../utils/chartUtils";
 
 declare module "chart.js" {
   type CustomChartOptions<

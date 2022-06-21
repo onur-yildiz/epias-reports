@@ -90,9 +90,9 @@ const reportApi = baseApi.injectEndpoints({
     }),
     updateReportRoles: builder.mutation<
       void,
-      ReportUpdateParams<ReportUpdateRolesBody>
+      ReportUpdateParams<UpdateRolesBody>
     >({
-      query: (params: ReportUpdateParams<ReportUpdateRolesBody>) => ({
+      query: (params) => ({
         url: `${RE.Reports}/${params.key}/roles`,
         method: "PATCH",
         body: params.body,
@@ -101,9 +101,9 @@ const reportApi = baseApi.injectEndpoints({
     }),
     updateReportIsActive: builder.mutation<
       void,
-      ReportUpdateParams<ReportUpdateIsActiveBody>
+      ReportUpdateParams<UpdateIsActiveBody>
     >({
-      query: (params: ReportUpdateParams<ReportUpdateIsActiveBody>) => ({
+      query: (params) => ({
         url: `${RE.Reports}/${params.key}/is-active`,
         method: "PATCH",
         body: params.body,

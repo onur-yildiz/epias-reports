@@ -17,14 +17,6 @@ interface ReportUpdateParams<T> {
   body: T;
 }
 
-interface ReportUpdateRolesBody {
-  roles: string[];
-}
-
-interface ReportUpdateIsActiveBody {
-  isActive: boolean;
-}
-
 interface FolderRoute {
   order: string;
   name: LocalizedName[];

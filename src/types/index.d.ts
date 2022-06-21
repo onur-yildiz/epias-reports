@@ -24,3 +24,11 @@ type DateIntervalReportKey =
   | "bpm-smp"
   | "fdpp"
   | "rtg";
+
+interface UpdateRolesBody {
+  roles: string[];
+}
+
+interface UpdateIsActiveBody {
+  isActive: boolean;
+}

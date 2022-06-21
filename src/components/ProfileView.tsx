@@ -37,7 +37,7 @@ const ProfileView = () => {
   const handleDeleteApiKey = async (apiKey: string) => {
     try {
       setIsUpdatingApiKeys(true);
-      await deleteApiKey({ apiKey, userId: user.id }).unwrap();
+      await deleteApiKey({ body: { apiKey }, userId: user.id }).unwrap();
     } catch (error) {
       console.error(error);
     }

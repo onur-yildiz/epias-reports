@@ -50,17 +50,17 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["api-keys"],
     }),
-    deleteApiKey: builder.mutation<void, { apiKey: string; userId: string }>({
+    deleteApiKey: builder.mutation<void, UserUpdateParams<DeleteApiKeyBody>>({
       query: (params) => ({
         url: `${UE.Users}/${params.userId}/api-keys`,
         method: "DELETE",
-        body: { apiKey: params.apiKey },
+        body: params.body,
       }),
       invalidatesTags: ["api-keys"],
     }),
     updateAccountRoles: builder.mutation<
       void,
-      UserUpdateParams<UserUpdateRolesBody>
+      UserUpdateParams<UpdateRolesBody>
     >({
       query: (params) => ({
         url: `${UE.Users}/${params.userId}/roles`,
@@ -71,7 +71,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     updateAccountIsActive: builder.mutation<
       any,
-      UserUpdateParams<UserUpdateIsActiveBody>
+      UserUpdateParams<UpdateIsActiveBody>
     >({
       query: (params) => ({
         url: `${UE.Users}/${params.userId}/is-active`,
