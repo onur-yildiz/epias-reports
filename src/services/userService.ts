@@ -40,6 +40,7 @@ const userApi = baseApi.injectEndpoints({
       query: (userId) => ({
         url: `${UE.Users}/${userId}/api-keys`,
       }),
+      providesTags: ["api-keys"],
     }),
     createApiKey: builder.mutation<string, string>({
       query: (userId) => ({
@@ -47,6 +48,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         responseHandler: "text",
       }),
+      invalidatesTags: ["api-keys"],
     }),
     deleteApiKey: builder.mutation<void, { apiKey: string; userId: string }>({
       query: (params) => ({
@@ -54,6 +56,7 @@ const userApi = baseApi.injectEndpoints({
         method: "DELETE",
         body: { apiKey: params.apiKey },
       }),
+      invalidatesTags: ["api-keys"],
     }),
     updateAccountRoles: builder.mutation<
       void,
