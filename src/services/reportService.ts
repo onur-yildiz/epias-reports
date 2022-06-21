@@ -23,7 +23,7 @@ const reportApi = baseApi.injectEndpoints({
     }),
     getReports: builder.query<ReportRoute[], void>({
       query: () => RE.Reports,
-      providesTags: ["auth"],
+      providesTags: ["auth", "report-status"],
     }),
     getMcpSmp: builder.query<McpSmpData, DateInterval>({
       query: (q) =>
