@@ -5,7 +5,6 @@ enum UE { // User Endpoints
   Login = "users/login",
   Register = "users/register",
   RefreshToken = "users/refresh-token",
-  CreateApiKey = "users/api-keys/create",
 }
 
 const userApi = baseApi.injectEndpoints({
@@ -37,18 +36,23 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["auth"],
     }),
-    createApiKey: builder.mutation<string, void>({
-      query: () => ({
-        url: UE.CreateApiKey,
+    getApiKeys: builder.query<ApiKey[], string>({
+      query: (userId) => ({
+        url: `${UE.Users}/${userId}/api-keys`,
+      }),
+    }),
+    createApiKey: builder.mutation<string, string>({
+      query: (userId) => ({
+        url: `${UE.Users}/${userId}/api-keys/create`,
         method: "POST",
         responseHandler: "text",
       }),
     }),
-    deleteApiKey: builder.mutation<void, string>({
-      query: (apiKey) => ({
-        url: `${UE.Users}/api-keys`,
+    deleteApiKey: builder.mutation<void, { apiKey: string; userId: string }>({
+      query: (params) => ({
+        url: `${UE.Users}/${params.userId}/api-keys`,
         method: "DELETE",
-        body: { apiKey },
+        body: { apiKey: params.apiKey },
       }),
     }),
     updateAccountRoles: builder.mutation<
@@ -79,6 +83,7 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation: useLazyLogin,
   useRefreshTokenMutation: useLazyRefreshToken,
+  useGetApiKeysQuery: useGetApiKeys,
   useCreateApiKeyMutation: useLazyCreateApiKey,
   useDeleteApiKeyMutation: useLazyDeleteApiKey,
   useRegisterMutation: useLazyRegister,

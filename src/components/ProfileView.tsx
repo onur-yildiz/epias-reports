@@ -1,7 +1,6 @@
 import { Delete, Key } from "@mui/icons-material";
-import { addApiKey, removeApiKey } from "../store/authSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
 import {
+  useGetApiKeys,
   useLazyCreateApiKey,
   useLazyDeleteApiKey,
 } from "../services/userService";
@@ -15,19 +14,20 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import SupervisorAccount from "@mui/icons-material/SupervisorAccount";
 import Typography from "@mui/material/Typography";
+import { useAppSelector } from "../hooks";
 import { useState } from "react";
 
 const ProfileView = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
   const [isUpdatingApiKeys, setIsUpdatingApiKeys] = useState(false);
   const [createApiKey] = useLazyCreateApiKey();
   const [deleteApiKey] = useLazyDeleteApiKey();
+  const { data: apiKeys } = useGetApiKeys(user.id);
 
   const handleGenerateApiKey = async () => {
     try {
       setIsUpdatingApiKeys(true);
-      dispatch(addApiKey(await createApiKey().unwrap()));
+      await createApiKey(user.id).unwrap();
     } catch (error) {
       console.error(error);
     }
@@ -37,8 +37,7 @@ const ProfileView = () => {
   const handleDeleteApiKey = async (apiKey: string) => {
     try {
       setIsUpdatingApiKeys(true);
-      await deleteApiKey(apiKey).unwrap();
-      dispatch(removeApiKey(apiKey));
+      await deleteApiKey({ apiKey, userId: user.id }).unwrap();
     } catch (error) {
       console.error(error);
     }
@@ -149,20 +148,20 @@ const ProfileView = () => {
           </Typography>
           <Button
             onClick={handleGenerateApiKey}
-            disabled={user.apiKeys.length >= 3}
+            disabled={apiKeys && apiKeys.length >= 3}
           >
             Generate Key
           </Button>
         </Stack>
-        {user.apiKeys.map((apiKey) => (
+        {apiKeys?.map((apiKey) => (
           <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
               color="error"
-              onClick={() => handleDeleteApiKey(apiKey)}
+              onClick={() => handleDeleteApiKey(apiKey.apiKey)}
             >
               <Delete />
             </IconButton>
-            <Typography display="inline">{apiKey}</Typography>
+            <Typography display="inline">{apiKey.apiKey}</Typography>
           </Stack>
         ))}
       </Stack>
