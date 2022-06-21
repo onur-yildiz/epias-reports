@@ -49,7 +49,7 @@ const chartDataOptions: ChartDataOptions = {
 
 const labelPropName = "tarih";
 
-const dppConfig: ChartConfig = {
+const dppConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
   labelPropName,

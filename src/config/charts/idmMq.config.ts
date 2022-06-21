@@ -49,7 +49,7 @@ const chartDataOptions: ChartDataOptions = {
 
 const labelPropName = "contract";
 
-const idmMqConfig: ChartConfig = {
+const idmMqConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
   labelPropName,

@@ -49,7 +49,7 @@ const chartDataOptions: ChartDataOptions = {
 
 const labelPropName = "date";
 
-const rtgConfig: ChartConfig = {
+const rtgConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
   labelPropName,

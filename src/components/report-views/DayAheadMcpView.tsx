@@ -1,7 +1,4 @@
-import CustomMuiGrid from "../custom/CustomMuiGrid";
-import DateIntervalForm from "../DateIntervalForm";
-import { Fragment } from "react";
-import LineChart from "../charts/LineChart";
+import DateIntervalReportView from "./DateIntervalReportView";
 import damMcpConfig from "../../config/charts/damMcp.config";
 import { useAppSelector } from "../../hooks";
 import { useGetDayAheadMcp } from "../../services/reportService";
@@ -16,20 +13,11 @@ const DayAheadMcpView = () => {
   });
 
   return (
-    <Fragment>
-      <CustomMuiGrid>
-        <DateIntervalForm />
-      </CustomMuiGrid>
-      <CustomMuiGrid variant="large">
-        <LineChart
-          data={data?.dayAheadMCPList}
-          labelPropName="date"
-          isLoading={isLoading}
-          chartOptions={damMcpConfig.chartOptions}
-          chartDataOptions={damMcpConfig.chartDataOptions}
-        />
-      </CustomMuiGrid>
-    </Fragment>
+    <DateIntervalReportView
+      data={data?.dayAheadMCPList}
+      isLoading={isLoading}
+      chartConfig={damMcpConfig}
+    />
   );
 };
 

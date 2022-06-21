@@ -41,7 +41,7 @@ const chartDataOptions: ChartDataOptions = {
 
 const labelPropName = "date";
 
-const smpConfig: ChartConfig = {
+const smpConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
   labelPropName,

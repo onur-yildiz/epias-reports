@@ -1,9 +1,13 @@
 import {
+  ChartConfig,
+  CustomChartOptions,
+  LineControllerChartOptions,
+} from "chart.js";
+import {
   ChartDataOptions,
   addTooltipLabelSuffix,
   defaultDateLabelCallback,
 } from "../../utils/chartUtils";
-import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 
 const chartOptions = {
   plugins: {
@@ -32,9 +36,12 @@ const chartDataOptions: ChartDataOptions = {
   datasetLabels: ["TL", "USD", "EUR"],
 };
 
-const damMcpConfig = {
+const labelPropName = "date";
+
+const damMcpConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
+  labelPropName,
 };
 
 export default damMcpConfig;

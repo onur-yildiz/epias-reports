@@ -40,7 +40,7 @@ const chartDataOptions: ChartDataOptions = {
 
 const labelPropName = "date";
 
-const idmWapConfig: ChartConfig = {
+const idmWapConfig: ChartConfig<"line", LineControllerChartOptions> = {
   chartOptions,
   chartDataOptions,
   labelPropName,

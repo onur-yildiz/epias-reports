@@ -1,6 +1,6 @@
+import { ChartConfig, ChartTypeRegistry } from "chart.js";
 import { FC, Fragment } from "react";
 
-import { ChartConfig } from "chart.js";
 import CustomMuiGrid from "../custom/CustomMuiGrid";
 import DateIntervalForm from "../DateIntervalForm";
 import LineChart from "../charts/LineChart";
@@ -8,7 +8,7 @@ import LineChart from "../charts/LineChart";
 interface DateIntervalReportViewProps {
   data: any[] | undefined;
   isLoading: boolean;
-  chartConfig: ChartConfig;
+  chartConfig: ChartConfig<keyof ChartTypeRegistry, any>;
 }
 
 const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
