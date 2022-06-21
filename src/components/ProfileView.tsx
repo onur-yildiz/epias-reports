@@ -154,14 +154,19 @@ const ProfileView = () => {
           </Button>
         </Stack>
         {apiKeys?.map((apiKey) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            key={apiKey.key}
+            direction="row"
+            alignItems="center"
+            spacing={1}
+          >
             <IconButton
               color="error"
-              onClick={() => handleDeleteApiKey(apiKey.apiKey)}
+              onClick={() => handleDeleteApiKey(apiKey.key)}
             >
               <Delete />
             </IconButton>
-            <Typography display="inline">{apiKey.apiKey}</Typography>
+            <Typography display="inline">{apiKey.key}</Typography>
           </Stack>
         ))}
       </Stack>

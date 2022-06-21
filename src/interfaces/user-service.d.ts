@@ -37,5 +37,5 @@ interface AuthUser extends BaseUser {
 interface ApiKey {
   userId: string;
   appName: string;
-  apiKey: string;
+  key: string;
 }
