@@ -6,6 +6,7 @@ const ListSkeleton = () => {
     <List>
       {new Array(15).fill(null).map((_, index) => (
         <Skeleton
+          key={index}
           variant="rectangular"
           sx={{
             m: 1,
