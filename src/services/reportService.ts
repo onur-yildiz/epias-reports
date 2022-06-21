@@ -9,6 +9,7 @@ enum RE { // Report Endpoints
   Dpp = "reports/fdpp",
   IntraDayWap = "reports/idm-wap",
   IntraDaySummary = "reports/idm-sum",
+  IntraDayMatchingQuantity = "reports/idm-mq",
   IntraDayVolSum = "reports/idm-vs",
   Smp = "reports/bpm-smp",
   Reports = "/reports",
@@ -67,6 +68,14 @@ const reportApi = baseApi.injectEndpoints({
         `${RE.IntraDaySummary}?startDate=${q.startDate}&endDate=${q.endDate}`,
       providesTags: ["auth"],
     }),
+    getIntraDayMatchingQuantity: builder.query<
+      IntradaySummaryData,
+      DateInterval
+    >({
+      query: (q) =>
+        `${RE.IntraDayMatchingQuantity}?startDate=${q.startDate}&endDate=${q.endDate}`,
+      providesTags: ["auth"],
+    }),
     getIntraDayVolumeSummary: builder.query<
       IntradayVolumeSummaryData,
       DateIntervalPeriodic
@@ -113,6 +122,7 @@ export const {
   useGetDppQuery: useGetDpp,
   useGetIntraDayWapQuery: useGetIntraDayWap,
   useGetIntraDaySummaryQuery: useGetIntraDaySummary,
+  useGetIntraDayMatchingQuantityQuery: useGetIntraDayMatchingQuantity,
   useGetIntraDayVolumeSummaryQuery: useGetIntraDayVolumeSummary,
   useGetSmpQuery: useGetSmp,
   useGetReportsQuery: useGetReports,
