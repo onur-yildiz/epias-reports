@@ -1,18 +1,18 @@
-import DateIntervalReportView from "./DateIntervalReportView";
+import CustomMuiGrid from "../custom/CustomMuiGrid";
+import DppForm from "../DppForm";
+import { Fragment } from "react";
+import LineChart from "../charts/LineChart";
 import dppConfig from "../../config/charts/dpp.config";
 import { useAppSelector } from "../../hooks";
 import { useGetDpp } from "../../services/reportService";
 
-// TODO MISSING PARAMS
 const DppView = () => {
-  const params = useAppSelector(
-    (state) => state.param.dateIntervalParams["fdpp"]
-  );
+  const params = useAppSelector((state) => state.param.dpp);
   const { data, isLoading } = useGetDpp({
     startDate: params.startDate,
     endDate: params.endDate,
-    organizationEIC: "",
-    uevcbEIC: "",
+    organizationEIC: params.organizationEIC,
+    uevcbEIC: params.uevcbEIC,
   });
 
   const dataProps = data?.dppList
@@ -23,12 +23,20 @@ const DppView = () => {
 
   dppConfig.chartDataOptions.valuePropNames = dataProps;
 
+  console.log("A");
   return (
-    <DateIntervalReportView
-      data={data?.dppList}
-      isLoading={isLoading}
-      chartConfig={dppConfig}
-    />
+    <Fragment>
+      <DppForm />
+      <CustomMuiGrid variant="large">
+        <LineChart
+          data={data?.dppList}
+          labelPropName={dppConfig.labelPropName}
+          isLoading={isLoading}
+          chartOptions={dppConfig.chartOptions}
+          chartDataOptions={dppConfig.chartDataOptions}
+        />
+      </CustomMuiGrid>
+    </Fragment>
   );
 };
 
