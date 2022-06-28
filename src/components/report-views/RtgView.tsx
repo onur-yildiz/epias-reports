@@ -22,6 +22,7 @@ const RtgView = () => {
 
   return (
     <DateIntervalReportView
+      reportKey="rtg"
       data={data?.hourlyGenerations}
       isLoading={isLoading}
       chartConfig={rtgConfig}

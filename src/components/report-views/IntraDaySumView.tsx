@@ -93,7 +93,7 @@ const IntraDaySumView = () => {
   return (
     <Fragment>
       <CustomMuiGrid variant="large" direction="row">
-        <DateIntervalForm />
+        <DateIntervalForm reportKey="idm-sum" />
         {data && (
           <Select
             id="summary-table-select"

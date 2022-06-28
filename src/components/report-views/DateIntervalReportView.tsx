@@ -9,6 +9,7 @@ interface DateIntervalReportViewProps {
   data: any[] | undefined;
   isLoading: boolean;
   chartConfig: ChartConfig<keyof ChartTypeRegistry, any>;
+  reportKey: DateIntervalReportKey;
 }
 
 const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
@@ -17,7 +18,7 @@ const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
   return (
     <Fragment>
       <CustomMuiGrid>
-        <DateIntervalForm />
+        <DateIntervalForm reportKey={props.reportKey} />
       </CustomMuiGrid>
       <CustomMuiGrid variant="large">
         <LineChart

@@ -4,13 +4,19 @@ import { format } from "date-fns";
 
 interface ParamState {
   dateIntervalParams: Record<DateIntervalReportKey, DateInterval>;
-  activeReportKey?: ReportKey;
+  dpp: DppParams;
 }
 
 const todayFormatted = format(new Date(), "yyyy-MM-dd");
-const defaultDateInterval = {
+const defaultDateInterval: DateInterval = {
   startDate: todayFormatted,
   endDate: todayFormatted,
+};
+const defaultDppParams: DppParams = {
+  startDate: todayFormatted,
+  endDate: todayFormatted,
+  organizationEIC: "",
+  uevcbEIC: "",
 };
 
 const initialState: ParamState = {
@@ -20,10 +26,9 @@ const initialState: ParamState = {
     "idm-mq": defaultDateInterval,
     "idm-sum": defaultDateInterval,
     "bpm-smp": defaultDateInterval,
-    fdpp: defaultDateInterval,
     rtg: defaultDateInterval,
   },
-  activeReportKey: "dam-mcp",
+  dpp: defaultDppParams,
 };
 
 const paramSlice = createSlice({
@@ -39,12 +44,12 @@ const paramSlice = createSlice({
     ) {
       state.dateIntervalParams[action.payload.key] = action.payload.params;
     },
-    setActiveReportKey: (state, action: PayloadAction<ReportKey>) => {
-      state.activeReportKey = action.payload;
+    setDppParams: (state, action: PayloadAction<DppParams>) => {
+      state.dpp = action.payload;
     },
   },
 });
 
-export const { setDateIntervalParams, setActiveReportKey } = paramSlice.actions;
+export const { setDateIntervalParams, setDppParams } = paramSlice.actions;
 
 export default paramSlice.reducer;

@@ -14,6 +14,7 @@ const SmpView = () => {
 
   return (
     <DateIntervalReportView
+      reportKey="bpm-smp"
       data={data?.smpList}
       isLoading={isLoading}
       chartConfig={smpConfig}

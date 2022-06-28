@@ -14,6 +14,7 @@ const IntraDayMqView = () => {
 
   return (
     <DateIntervalReportView
+      reportKey="idm-mq"
       data={data?.intraDaySummaryList}
       isLoading={isLoading}
       chartConfig={idmMqConfig}

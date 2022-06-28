@@ -14,6 +14,7 @@ const IntraDayWapView = () => {
 
   return (
     <DateIntervalReportView
+      reportKey="idm-wap"
       data={data?.idmAofList}
       isLoading={isLoading}
       chartConfig={idmWapConfig}

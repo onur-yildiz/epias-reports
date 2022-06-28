@@ -14,6 +14,7 @@ const DayAheadMcpView = () => {
 
   return (
     <DateIntervalReportView
+      reportKey="dam-mcp"
       data={data?.dayAheadMCPList}
       isLoading={isLoading}
       chartConfig={damMcpConfig}

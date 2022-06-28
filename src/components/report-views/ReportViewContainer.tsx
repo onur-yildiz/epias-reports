@@ -29,9 +29,7 @@ const keyRoutePairs: Record<ReportKey, JSX.Element> = {
 
 const ReportViewContainer = () => {
   let { reportKey } = useParams();
-  const [component, setComponent] = useState<JSX.Element>(
-    <StatusCode value={404} />
-  );
+  const [component, setComponent] = useState<JSX.Element>();
   const routeExists = useAppSelector((state) =>
     state.report.reportListingInfo?.some((r) => r.key === reportKey)
   );
