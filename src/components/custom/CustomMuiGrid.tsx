@@ -1,12 +1,16 @@
+import { FormEvent, PropsWithChildren } from "react";
 import Grid, { GridProps } from "@mui/material/Grid";
+import Stack, { StackProps } from "@mui/material/Stack";
 
 import Paper from "@mui/material/Paper";
-import { PropsWithChildren } from "react";
-import Stack from "@mui/material/Stack";
 
 interface CustomMuiGridProps {
   variant?: "large" | "medium" | "small";
   direction?: "row" | "column";
+  component?: "form";
+  onSubmit?: (event: FormEvent<Element>) => void;
+  disablePaper?: boolean;
+  stackProps?: StackProps;
 }
 
 const CustomMuiGrid = (props: PropsWithChildren<CustomMuiGridProps>) => {
@@ -23,17 +27,21 @@ const CustomMuiGrid = (props: PropsWithChildren<CustomMuiGridProps>) => {
     }
   };
 
+  const child = (
+    <Stack
+      component={props.component ?? "div"}
+      onSubmit={props.onSubmit}
+      direction={props.direction}
+      spacing={3}
+      justifyContent="space-between"
+      {...props.stackProps}
+    >
+      {props.children}
+    </Stack>
+  );
   return (
     <Grid item {...getVariantProps()}>
-      <Paper sx={{ p: 2 }}>
-        <Stack
-          direction={props.direction}
-          spacing={3}
-          justifyContent="space-between"
-        >
-          {props.children}
-        </Stack>
-      </Paper>
+      {props.disablePaper ? child : <Paper sx={{ p: 2 }}>{child}</Paper>}
     </Grid>
   );
 };
