@@ -8,12 +8,16 @@ const rolesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getRoles: builder.query<Role[], void>({
       query: () => SE.Roles,
+      transformResponse: (res: ApiResponse<Role[]>) => res.value,
       providesTags: ["role-status"],
     }),
-    getRole: builder.query<Role, Role>({
-      query: (role) => `${SE.Roles}/${role.name}`,
-      providesTags: ["role-status"],
-    }),
+
+    // getRole: builder.query<Role, Role>({
+    //   query: (role) => `${SE.Roles}/${role.name}`,
+    //   transformResponse: (res: ApiResponse<Role>) => res.value,
+    //   providesTags: ["role-status"],
+    // }),
+
     createRole: builder.mutation<void, Role>({
       query: (role) => ({
         url: SE.Roles,
@@ -22,6 +26,7 @@ const rolesApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["role-status"],
     }),
+
     removeRole: builder.mutation<void, Role>({
       query: (role) => ({
         url: `${SE.Roles}/${role.name}`,

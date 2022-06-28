@@ -11,7 +11,7 @@ type ReportKey =
   | "idm-mq"
   | "idm-sum"
   | "bpm-smp"
-  | "fdpp"
+  | "dpp"
   | "rtg"
   | "dpporg"
   | "dppiun";
@@ -22,7 +22,6 @@ type DateIntervalReportKey =
   | "idm-mq"
   | "idm-sum"
   | "bpm-smp"
-  | "fdpp"
   | "rtg";
 
 interface UpdateRolesBody {
@@ -31,4 +30,10 @@ interface UpdateRolesBody {
 
 interface UpdateIsActiveBody {
   isActive: boolean;
+}
+
+interface ApiResponse<T> {
+  responseCode: number;
+  message: string;
+  value: T;
 }
