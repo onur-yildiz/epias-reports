@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect, useState } from "react";
 
 import Container from "@mui/material/Container";
@@ -12,61 +11,41 @@ import IntraDaySumView from "./IntraDaySumView";
 import IntraDayWapView from "./IntraDayWapView";
 import RtgView from "./RtgView";
 import SmpView from "./SmpView";
-import { setActiveReportKey } from "../../store/paramSlice";
+import StatusCode from "../StatusCode";
+import { useAppSelector } from "../../hooks";
 import { useParams } from "react-router-dom";
 
-const getReportView = (reportKey: ReportKey) => {
-  switch (reportKey) {
-    case "dam-mcp":
-      return <DayAheadMcpView />;
-    case "idm-wap":
-      return <IntraDayWapView />;
-    case "idm-mq":
-      return <IntraDayMqView />;
-    case "idm-sum":
-      return <IntraDaySumView />;
-    case "bpm-smp":
-      return <SmpView />;
-    case "fdpp":
-      return <DppView />;
-    case "rtg":
-      return <RtgView />;
-    case "dpporg":
-      return <DppOrgView />;
-    case "dppiun":
-      return <DppIunView />;
-    default:
-      return <Container>404 Not Found</Container>;
-  }
+const keyRoutePairs: Record<ReportKey, JSX.Element> = {
+  "dam-mcp": <DayAheadMcpView />,
+  "idm-wap": <IntraDayWapView />,
+  "idm-mq": <IntraDayMqView />,
+  "idm-sum": <IntraDaySumView />,
+  "bpm-smp": <SmpView />,
+  dpp: <DppView />,
+  rtg: <RtgView />,
+  dpporg: <DppOrgView />,
+  dppiun: <DppIunView />,
 };
 
 const ReportViewContainer = () => {
   let { reportKey } = useParams();
   const [component, setComponent] = useState<JSX.Element>(
-    <Container>404 Not Found</Container>
+    <StatusCode value={404} />
   );
-  const [reportRoute, userRoles, isAdmin] = useAppSelector((state) => {
-    return [
-      state.report.reportListingInfo?.find((r) => r.key === reportKey),
-      state.auth.user.roles,
-      state.auth.user.isAdmin,
-    ];
-  });
-  const dispatch = useAppDispatch();
+  const routeExists = useAppSelector((state) =>
+    state.report.reportListingInfo?.some((r) => r.key === reportKey)
+  );
 
   useEffect(() => {
-    dispatch(setActiveReportKey(reportKey as ReportKey));
-    setComponent(getReportView(reportKey as ReportKey));
-  }, [reportKey, dispatch]);
+    const routeComponent = keyRoutePairs[reportKey as ReportKey];
+    if (routeExists) setComponent(routeComponent);
+    else setComponent(<StatusCode value={routeComponent ? 403 : 404} />);
+  }, [reportKey, routeExists]);
 
-  const show =
-    reportRoute?.roles && !isAdmin
-      ? reportRoute.roles.every((r) => userRoles.includes(r))
-      : true;
   return (
     <Container maxWidth="lg" sx={{ mt: 8, mb: 8 }}>
       <Grid container spacing={3}>
-        {show ? component : <Container>403 Forbidden</Container>}
+        {component}
       </Grid>
     </Container>
   );
