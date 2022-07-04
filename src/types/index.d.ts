@@ -37,3 +37,5 @@ interface ApiResponse<T> {
   message: string;
   value: T;
 }
+
+type QueryStatus = "unavailable" | "loading" | "fetching" | "error" | undefined;
