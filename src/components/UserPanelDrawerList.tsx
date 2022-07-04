@@ -19,7 +19,7 @@ const UserPanelDrawerList = () => {
       >
         back to reports
       </Button>
-      <DrawerListButton primary="Profile" path="profile" emphasize />
+      <DrawerListButton primary="Account" path="" emphasize />
       {isAdmin && (
         <Fragment>
           {["admin/users", "admin/reports", "admin/roles"].map((path) => (

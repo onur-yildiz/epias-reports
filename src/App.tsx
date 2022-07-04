@@ -45,7 +45,7 @@ function App() {
           <Route path={"/:reportKey"} element={<ReportViewContainer />} />
         </Route>
         <Route path="/account" element={<AccountPanel />}>
-          <Route path="profile" element={<ProfileView />} />
+          <Route index element={<ProfileView />} />
           <Route
             path="admin/users"
             element={user.isAdmin ? <UsersTable /> : <StatusCode value={403} />}
