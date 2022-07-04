@@ -1,4 +1,3 @@
-import { blueGrey, grey } from "@mui/material/colors";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 let lightTheme = createTheme({
@@ -10,13 +9,14 @@ let lightTheme = createTheme({
       light: "#94e820",
     },
     secondary: {
-      main: blueGrey[500],
-      dark: blueGrey[800],
-      light: blueGrey[100],
+      main: "#5016a2",
+      dark: "#3a1075",
+      light: "#661ccf",
     },
     background: {
-      paper: grey[50],
+      paper: "white",
     },
+    action: { focus: "red" },
   },
 });
 
