@@ -3,12 +3,12 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
 
-import AccountPanel from "./screens/AccountPanel";
+import AccountPanel from "./screens/Dashboard/Components/AccountPanel";
 import Login from "./screens/Login";
 import ProfileView from "./components/ProfileView";
 import Register from "./screens/Register";
 import ReportViewContainer from "./components/report-views/ReportViewContainer";
-import ReportsDashboard from "./screens/ReportsDashboard";
+import ReportsDashboard from "./screens/Dashboard/Components/ReportsDashboard";
 import ReportsTable from "./components/ReportsTable";
 import RolesTable from "./components/RolesTable";
 import StatusCode from "./components/StatusCode";
