@@ -2,6 +2,7 @@ import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 import { FC, useRef } from "react";
 import chartUtils, { ChartDataOptions } from "../../utils/chartUtils";
 
+import Box from "@mui/material/Box";
 import { Download } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { Line } from "react-chartjs-2";
@@ -48,17 +49,26 @@ const LineChart: FC<LineChartProps> = (props: LineChartProps) => {
 
   return (
     <Stack>
-      <Tooltip title="Download JPG" arrow>
-        <IconButton
-          sx={{ alignSelf: "end", position: "absolute" }}
-          onClick={handleDownloadImage}
-        >
-          <Download />
-        </IconButton>
-      </Tooltip>
-      <div ref={ref}>
-        <Line options={props.chartOptions} data={chartData} />
-      </div>
+      <Box
+        sx={{
+          minWidth: "500px",
+          width: "100%",
+          m: "auto",
+          position: "relative",
+        }}
+      >
+        <Tooltip title="Download JPG" arrow>
+          <IconButton
+            sx={{ right: 0, position: "absolute" }}
+            onClick={handleDownloadImage}
+          >
+            <Download />
+          </IconButton>
+        </Tooltip>
+        <div ref={ref}>
+          <Line options={props.chartOptions} data={chartData} />
+        </div>
+      </Box>
     </Stack>
   );
 };
