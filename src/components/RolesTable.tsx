@@ -12,6 +12,7 @@ import {
 
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
+import CustomStack from "./custom/CustomStack";
 import DelayedSnackbar from "./DelayedSnackbar";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -53,7 +54,7 @@ const RolesTable = () => {
       spacing={1}
       className="ag-theme-material"
     >
-      <Stack
+      <CustomStack
         direction="row"
         sx={{ m: 1 }}
         spacing={1}
@@ -73,7 +74,7 @@ const RolesTable = () => {
         >
           delete selected
         </Button>
-      </Stack>
+      </CustomStack>
       <AgGridReact
         ref={gridRef}
         gridOptions={gridOptions}

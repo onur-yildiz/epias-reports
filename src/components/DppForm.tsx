@@ -7,7 +7,7 @@ import {
 
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import CustomMuiGrid from "./custom/CustomMuiGrid";
+import CustomStack from "./custom/CustomStack";
 import DateIntervalInput from "./DateIntervalInput";
 import TextField from "@mui/material/TextField";
 import format from "date-fns/format";
@@ -55,14 +55,9 @@ const DppForm = () => {
     setOrganizationEIC(value?.organizationETSOCode ?? "");
   };
 
-  console.log(dppIun?.injectionUnitNames.find((iun) => iun.eic === uevcbEIC));
   return (
-    <CustomMuiGrid component="form" variant="large" onSubmit={handleSubmit}>
-      <CustomMuiGrid
-        disablePaper
-        direction="row"
-        stackProps={{ justifyContent: "flex-start" }}
-      >
+    <CustomStack component="form" onSubmit={handleSubmit} disablePaper>
+      <CustomStack disablePaper direction="row" justifyContent="flex-start">
         <DateIntervalInput
           startDateProps={{
             value: startDate,
@@ -81,17 +76,17 @@ const DppForm = () => {
             renderInput: (p) => <TextField {...p} error={!endDate} />,
           }}
         />
-      </CustomMuiGrid>
-      <CustomMuiGrid disablePaper variant="large" direction="row">
+      </CustomStack>
+      <CustomStack disablePaper>
         {dppOrgs?.organizations && (
           <Autocomplete
             sx={{ flexGrow: 1 }}
             disablePortal
             id="organization-eic-select"
-            value={dppOrgs?.organizations.find(
+            value={dppOrgs.organizations.find(
               (org) => org.organizationETSOCode === organizationEIC
             )}
-            options={dppOrgs?.organizations ?? []}
+            options={dppOrgs.organizations}
             getOptionLabel={(option) => option.organizationName}
             onChange={onOrgChange}
             renderInput={(params) => (
@@ -123,8 +118,8 @@ const DppForm = () => {
         >
           Apply
         </Button>
-      </CustomMuiGrid>
-    </CustomMuiGrid>
+      </CustomStack>
+    </CustomStack>
   );
 };
 
