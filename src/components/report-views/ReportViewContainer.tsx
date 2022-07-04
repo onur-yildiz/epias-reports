@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
 
-import Container from "@mui/material/Container";
-import DayAheadMcpView from "./DayAheadMcpView";
-import DppIunView from "./DppIunView";
-import DppOrgView from "./DppOrgView";
-import DppView from "./DppView";
-import Grid from "@mui/material/Grid";
-import IntraDayMqView from "./IntraDayMqView";
-import IntraDaySumView from "./IntraDaySumView";
-import IntraDayWapView from "./IntraDayWapView";
-import RtgView from "./RtgView";
-import SmpView from "./SmpView";
+import Box from "@mui/material/Box";
+import DamMcp from "./reports/DamMcp";
+import Dpp from "./reports/Dpp";
+import DppIun from "./reports/DppIun";
+import DppOrg from "./reports/DppOrg";
+import IdmMq from "./reports/IdmMq";
+import IdmSum from "./reports/IdmSum";
+import IdmWap from "./reports/IdmWap";
+import Rtg from "./reports/Rtg";
+import Smp from "./reports/Smp";
 import StatusCode from "../StatusCode";
 import { useAppSelector } from "../../hooks";
 import { useParams } from "react-router-dom";
 
 const keyRoutePairs: Record<ReportKey, JSX.Element> = {
-  "dam-mcp": <DayAheadMcpView />,
-  "idm-wap": <IntraDayWapView />,
-  "idm-mq": <IntraDayMqView />,
-  "idm-sum": <IntraDaySumView />,
-  "bpm-smp": <SmpView />,
-  dpp: <DppView />,
-  rtg: <RtgView />,
-  dpporg: <DppOrgView />,
-  dppiun: <DppIunView />,
+  "dam-mcp": <DamMcp />,
+  "idm-wap": <IdmWap />,
+  "idm-mq": <IdmMq />,
+  "idm-sum": <IdmSum />,
+  "bpm-smp": <Smp />,
+  dpp: <Dpp />,
+  rtg: <Rtg />,
+  dpporg: <DppOrg />,
+  dppiun: <DppIun />,
 };
 
 const ReportViewContainer = () => {
@@ -40,13 +39,7 @@ const ReportViewContainer = () => {
     else setComponent(<StatusCode value={routeComponent ? 403 : 404} />);
   }, [reportKey, routeExists]);
 
-  return (
-    <Container maxWidth="lg" sx={{ mt: 8, mb: 8 }}>
-      <Grid container spacing={3}>
-        {component}
-      </Grid>
-    </Container>
-  );
+  return <Box sx={{ pt: 3, px: 3 }}>{component}</Box>;
 };
 
 export default ReportViewContainer;

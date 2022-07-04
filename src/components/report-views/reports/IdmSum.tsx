@@ -2,15 +2,15 @@ import { CustomChartOptions, LineControllerChartOptions } from "chart.js";
 import { Fragment, useState } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import { ChartDataOptions } from "../../utils/chartUtils";
-import CustomMuiGrid from "../custom/CustomMuiGrid";
-import DateIntervalForm from "../DateIntervalForm";
-import LineChart from "../charts/LineChart";
+import { ChartDataOptions } from "../../../utils/chartUtils";
+import CustomStack from "../../custom/CustomStack";
+import DateIntervalForm from "../../DateIntervalForm";
+import LineChart from "../../charts/LineChart";
 import MenuItem from "@mui/material/MenuItem";
 import format from "date-fns/format";
 import { parse } from "date-fns";
-import { useAppSelector } from "../../hooks";
-import { useGetIntraDaySummary } from "../../services/reportService";
+import { useAppSelector } from "../../../hooks";
+import { useGetIntraDaySummary } from "../../../services/reportService";
 
 interface SummaryConfig {
   yTitle: string;
@@ -19,7 +19,7 @@ interface SummaryConfig {
   datasetLabels: string[];
 }
 
-const IntraDaySumView = () => {
+const IdmSum = () => {
   const [config, setConfig] = useState<SummaryConfig>({
     yTitle: "",
     chartTitle: "Matching Quantity",
@@ -92,7 +92,7 @@ const IntraDaySumView = () => {
 
   return (
     <Fragment>
-      <CustomMuiGrid variant="large" direction="row">
+      <CustomStack direction="row">
         <DateIntervalForm reportKey="idm-sum" />
         {data && (
           <Select
@@ -112,8 +112,8 @@ const IntraDaySumView = () => {
             })}
           </Select>
         )}
-      </CustomMuiGrid>
-      <CustomMuiGrid variant="large">
+      </CustomStack>
+      <CustomStack>
         <LineChart
           data={data?.intraDaySummaryList}
           labelPropName="contract"
@@ -121,9 +121,9 @@ const IntraDaySumView = () => {
           chartOptions={chartOptions}
           chartDataOptions={chartDataOptions}
         />
-      </CustomMuiGrid>
+      </CustomStack>
     </Fragment>
   );
 };
 
-export default IntraDaySumView;
+export default IdmSum;

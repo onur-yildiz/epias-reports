@@ -1,13 +1,16 @@
 import { ChartConfig, ChartTypeRegistry } from "chart.js";
-import { FC, Fragment } from "react";
 
-import CustomMuiGrid from "../custom/CustomMuiGrid";
+import ChartTablePanel from "./ChartTablePanel";
+import CustomAgGridTable from "../custom/CustomAgGridTable";
 import DateIntervalForm from "../DateIntervalForm";
+import { FC } from "react";
 import LineChart from "../charts/LineChart";
+import StatusWrapper from "../StatusWrapper";
 
 interface DateIntervalReportViewProps {
   data: any[] | undefined;
   isLoading: boolean;
+  isError: boolean;
   chartConfig: ChartConfig<keyof ChartTypeRegistry, any>;
   reportKey: DateIntervalReportKey;
 }
@@ -16,11 +19,9 @@ const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
   props: DateIntervalReportViewProps
 ) => {
   return (
-    <Fragment>
-      <CustomMuiGrid>
-        <DateIntervalForm reportKey={props.reportKey} />
-      </CustomMuiGrid>
-      <CustomMuiGrid variant="large">
+    <ChartTablePanel>
+      <DateIntervalForm reportKey={props.reportKey} />
+      <StatusWrapper status={{ isError: props.isError }}>
         <LineChart
           data={props.data}
           labelPropName={props.chartConfig.labelPropName}
@@ -28,8 +29,9 @@ const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
           chartOptions={props.chartConfig.chartOptions}
           chartDataOptions={props.chartConfig.chartDataOptions}
         />
-      </CustomMuiGrid>
-    </Fragment>
+      </StatusWrapper>
+      {props.data && <CustomAgGridTable data={props.data} />}
+    </ChartTablePanel>
   );
 };
 

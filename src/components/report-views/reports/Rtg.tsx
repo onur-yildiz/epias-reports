@@ -1,13 +1,13 @@
-import DateIntervalReportView from "./DateIntervalReportView";
-import rtgConfig from "../../config/charts/rtg.config";
-import { useAppSelector } from "../../hooks";
-import { useGetRtg } from "../../services/reportService";
+import DateIntervalReportView from "../DateIntervalReportView";
+import rtgConfig from "../../../config/charts/rtg.config";
+import { useAppSelector } from "../../../hooks";
+import { useGetRtg } from "../../../services/reportService";
 
-const RtgView = () => {
+const Rtg = () => {
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams["rtg"]
   );
-  const { data, isLoading } = useGetRtg({
+  const { data, isLoading, isError, isFetching } = useGetRtg({
     startDate: params.startDate,
     endDate: params.endDate,
   });
@@ -24,10 +24,11 @@ const RtgView = () => {
     <DateIntervalReportView
       reportKey="rtg"
       data={data?.hourlyGenerations}
-      isLoading={isLoading}
+      isLoading={isLoading || isFetching}
+      isError={isError}
       chartConfig={rtgConfig}
     />
   );
 };
 
-export default RtgView;
+export default Rtg;
