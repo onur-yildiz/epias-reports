@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
 
 import AccountPanel from "./screens/Dashboard/Components/AccountPanel";
+import Box from "@mui/material/Box";
 import Login from "./screens/Login";
 import ProfileView from "./components/ProfileView";
 import Register from "./screens/Register";
@@ -39,7 +40,14 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <Box
+      component="main"
+      sx={{
+        display: "flex",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <Routes>
         <Route path="/" element={<ReportsDashboard />}>
           <Route path={"/:reportKey"} element={<ReportViewContainer />} />
@@ -68,7 +76,7 @@ function App() {
         />
         <Route path="*" element={<StatusCode value={404} />} />
       </Routes>
-    </div>
+    </Box>
   );
 }
 
