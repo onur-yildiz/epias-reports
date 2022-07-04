@@ -128,6 +128,7 @@ const ProfileView = () => {
             {user.roles.map((role) => {
               return (
                 <Paper
+                  key={role}
                   sx={{ py: 0.5, px: 1, userSelect: "none" }}
                   variant="outlined"
                 >
