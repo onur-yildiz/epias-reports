@@ -17,14 +17,22 @@ const UserPanelDrawerList = () => {
         }}
         onClick={() => navigate("/")}
       >
-        back to dashboard
+        back to reports
       </Button>
       <DrawerListButton primary="Profile" path="profile" emphasize />
       {isAdmin && (
         <Fragment>
-          <DrawerListButton primary="Users" path="admin/users" emphasize />
-          <DrawerListButton primary="Reports" path="admin/reports" emphasize />
-          <DrawerListButton primary="Roles" path="admin/roles" emphasize />
+          {["admin/users", "admin/reports", "admin/roles"].map((path) => (
+            <DrawerListButton
+              icon={<AdminPanelSettings />}
+              primary={path
+                .split("/")
+                .at(-1)!
+                .replace(/\w/, (c) => c.toLocaleUpperCase())}
+              path={path}
+              emphasize
+            />
+          ))}
         </Fragment>
       )}
     </List>
