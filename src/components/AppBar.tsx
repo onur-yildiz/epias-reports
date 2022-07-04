@@ -1,16 +1,17 @@
-import { FC, MouseEventHandler } from "react";
+import { FC, Fragment, MouseEvent, MouseEventHandler, useState } from "react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import { useAppDispatch, useAppSelector } from "../hooks";
 
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import ProfileBox from "./ProfileBox";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { drawerWidth } from "../constants/style";
-import { logout } from "../store/authSlice";
 import { styled } from "@mui/material/styles";
+import { useAppSelector } from "../hooks";
 import { useNavigate } from "react-router-dom";
 
 interface AppBarProps {
@@ -43,23 +44,22 @@ const CustomAppBar = styled(MuiAppBar, {
 
 const AppBar: FC<AppBarProps> = (props: AppBarProps) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isAuth, user] = useAppSelector((state) => [
     state.auth.isAuthenticated,
     state.auth.user,
   ]);
 
-  const handleAuthAction = () => {
-    if (isAuth) {
-      dispatch(logout());
-      window.location.replace("/");
-    } else {
-      navigate("/login");
-    }
+  const handleLogin = () => {
+    navigate("/login");
   };
 
-  const handleProfileClick = () => {
-    navigate(`/account`);
+  const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -93,11 +93,6 @@ const AppBar: FC<AppBarProps> = (props: AppBarProps) => {
         >
           {props.title}
         </Typography>
-        {/* <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
         <Stack
           direction="row"
           sx={{
@@ -105,22 +100,30 @@ const AppBar: FC<AppBarProps> = (props: AppBarProps) => {
             right: (theme) => theme.spacing(2),
           }}
         >
-          {isAuth && (
-            <Button
-              variant="contained"
-              disableElevation
-              onClick={handleProfileClick}
-            >
-              {user.name}
+          {isAuth ? (
+            <Fragment>
+              <Button
+                variant="contained"
+                disableElevation
+                onClick={handleProfileMenuOpen}
+              >
+                <Stack direction="row" spacing={1}>
+                  <Typography variant="subtitle1" alignSelf="center">
+                    {user.name}
+                  </Typography>
+                  <Avatar sx={{ bgcolor: "secondary.light" }} />
+                </Stack>
+              </Button>
+              <ProfileBox
+                anchorEl={anchorEl}
+                onClose={handleProfileMenuClose}
+              />
+            </Fragment>
+          ) : (
+            <Button variant="contained" disableElevation onClick={handleLogin}>
+              login
             </Button>
           )}
-          <Button
-            variant="contained"
-            disableElevation
-            onClick={handleAuthAction}
-          >
-            {isAuth ? "Logout" : "Login"}
-          </Button>
         </Stack>
       </Toolbar>
     </CustomAppBar>

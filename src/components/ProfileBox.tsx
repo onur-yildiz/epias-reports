@@ -1,49 +1,91 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import { Logout, ShowChart } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 
-const ProfileBox = () => {
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { logout } from "../store/authSlice";
+import { useAppDispatch } from "../hooks";
+import { useNavigate } from "react-router-dom";
+
+const ProfileBox = (props: {
+  anchorEl: HTMLElement | null;
+  onClose: () => void;
+}) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(props.anchorEl);
+  const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    setAnchorEl(props.anchorEl);
+  }, [props.anchorEl]);
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.replace("/");
+  };
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CardMedia
-          component="img"
-          image="https://images.theconversation.com/files/86375/original/image-20150625-12984-1416ek3.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop"
-          sx={{
-            borderRadius: "100%",
-            aspectRatio: "1 / 1",
-            height: "5vmax",
-            width: "5vmax",
-            alignSelf: "center",
-          }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </Box>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-      </CardActions>
-    </Card>
+    <Menu
+      anchorEl={anchorEl}
+      id="account-menu"
+      open={open}
+      onClose={props.onClose}
+      onClick={props.onClose}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          overflow: "visible",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+          mt: 1.5,
+          "& .MuiAvatar-root": {
+            width: 32,
+            height: 32,
+            ml: -0.5,
+            mr: 1,
+          },
+          "&:before": {
+            content: '""',
+            display: "block",
+            position: "absolute",
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: "background.paper",
+            transform: "translateY(-50%) rotate(45deg)",
+            zIndex: 0,
+          },
+        },
+      }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+    >
+      <MenuItem onClick={() => handleNavigation("/account")}>
+        <Avatar sx={{ bgcolor: "secondary.light" }} />
+        My account
+      </MenuItem>
+      <MenuItem onClick={() => handleNavigation("/")}>
+        <Avatar sx={{ bgcolor: "secondary.light" }}>
+          <ShowChart />
+        </Avatar>
+        Reports
+      </MenuItem>
+      <Divider />
+      <MenuItem onClick={handleLogout}>
+        <ListItemIcon>
+          <Logout />
+        </ListItemIcon>
+        Logout
+      </MenuItem>
+    </Menu>
   );
 };
 
