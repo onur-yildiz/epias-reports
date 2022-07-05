@@ -1,34 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-import { format } from "date-fns";
+import {
+  dateIntervalTodayParams,
+  dppAllTodayParams,
+} from "../constants/params";
 
 interface ParamState {
   dateIntervalParams: Record<DateIntervalReportKey, DateInterval>;
   dpp: DppParams;
 }
 
-const todayFormatted = format(new Date(), "yyyy-MM-dd");
-const defaultDateInterval: DateInterval = {
-  startDate: todayFormatted,
-  endDate: todayFormatted,
-};
-const defaultDppParams: DppParams = {
-  startDate: todayFormatted,
-  endDate: todayFormatted,
-  organizationEIC: "",
-  uevcbEIC: "",
-};
-
 const initialState: ParamState = {
   dateIntervalParams: {
-    "dam-mcp": defaultDateInterval,
-    "idm-wap": defaultDateInterval,
-    "idm-mq": defaultDateInterval,
-    "idm-sum": defaultDateInterval,
-    "bpm-smp": defaultDateInterval,
-    rtg: defaultDateInterval,
+    "dam-mcp": dateIntervalTodayParams,
+    "idm-wap": dateIntervalTodayParams,
+    "idm-mq": dateIntervalTodayParams,
+    "idm-sum": dateIntervalTodayParams,
+    "bpm-smp": dateIntervalTodayParams,
+    rtg: dateIntervalTodayParams,
   },
-  dpp: defaultDppParams,
+  dpp: dppAllTodayParams,
 };
 
 const paramSlice = createSlice({
