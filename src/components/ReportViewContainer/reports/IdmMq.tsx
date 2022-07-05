@@ -1,17 +1,17 @@
 import DateIntervalReportView from "../views/DateIntervalReportView";
+import { dateIntervalTodayParams } from "../../../constants/params";
 import idmMqConfig from "../../../config/charts/idmMq.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetIntraDayMatchingQuantity } from "../../../services/reportService";
 
-const IdmMq = () => {
+const IdmMq = (props: ReportProps) => {
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams["idm-mq"]
   );
   const { data, isLoading, isError, isFetching } =
-    useGetIntraDayMatchingQuantity({
-      startDate: params.startDate,
-      endDate: params.endDate,
-    });
+    useGetIntraDayMatchingQuantity(
+      props.static ? dateIntervalTodayParams : params
+    );
 
   return (
     <DateIntervalReportView
@@ -20,6 +20,7 @@ const IdmMq = () => {
       isLoading={isLoading || isFetching}
       isError={isError}
       chartConfig={idmMqConfig}
+      static={props.static}
     />
   );
 };

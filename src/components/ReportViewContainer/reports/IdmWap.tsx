@@ -1,16 +1,16 @@
 import DateIntervalReportView from "../views/DateIntervalReportView";
+import { dateIntervalTodayParams } from "../../../constants/params";
 import idmWapConfig from "../../../config/charts/idmWap.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetIntraDayWap } from "../../../services/reportService";
 
-const IdmWap = () => {
+const IdmWap = (props: ReportProps) => {
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams["idm-wap"]
   );
-  const { data, isLoading, isError, isFetching } = useGetIntraDayWap({
-    startDate: params.startDate,
-    endDate: params.endDate,
-  });
+  const { data, isLoading, isError, isFetching } = useGetIntraDayWap(
+    props.static ? dateIntervalTodayParams : params
+  );
 
   return (
     <DateIntervalReportView
@@ -19,6 +19,7 @@ const IdmWap = () => {
       isLoading={isLoading || isFetching}
       isError={isError}
       chartConfig={idmWapConfig}
+      static={props.static}
     />
   );
 };

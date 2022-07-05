@@ -1,16 +1,16 @@
 import DateIntervalReportView from "../views/DateIntervalReportView";
+import { dateIntervalTodayParams } from "../../../constants/params";
 import rtgConfig from "../../../config/charts/rtg.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetRtg } from "../../../services/reportService";
 
-const Rtg = () => {
+const Rtg = (props: ReportProps) => {
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams["rtg"]
   );
-  const { data, isLoading, isError, isFetching } = useGetRtg({
-    startDate: params.startDate,
-    endDate: params.endDate,
-  });
+  const { data, isLoading, isError, isFetching } = useGetRtg(
+    props.static ? dateIntervalTodayParams : params
+  );
 
   const dataProps = data?.hourlyGenerations
     ? Object.getOwnPropertyNames(data.hourlyGenerations[0]).filter(
@@ -27,6 +27,7 @@ const Rtg = () => {
       isLoading={isLoading || isFetching}
       isError={isError}
       chartConfig={rtgConfig}
+      static={props.static}
     />
   );
 };

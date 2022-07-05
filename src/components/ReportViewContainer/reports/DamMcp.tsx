@@ -1,16 +1,16 @@
 import DateIntervalReportView from "../views/DateIntervalReportView";
 import damMcpConfig from "../../../config/charts/damMcp.config";
+import { dateIntervalTodayParams } from "../../../constants/params";
 import { useAppSelector } from "../../../hooks";
 import { useGetDayAheadMcp } from "../../../services/reportService";
 
-const DamMcp = () => {
+const DamMcp = (props: ReportProps) => {
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams["dam-mcp"]
   );
-  const { data, isLoading, isError, isFetching } = useGetDayAheadMcp({
-    startDate: params.startDate,
-    endDate: params.endDate,
-  });
+  const { data, isLoading, isError, isFetching } = useGetDayAheadMcp(
+    props.static ? dateIntervalTodayParams : params
+  );
 
   return (
     <DateIntervalReportView
@@ -19,6 +19,7 @@ const DamMcp = () => {
       isLoading={isLoading || isFetching}
       isError={isError}
       chartConfig={damMcpConfig}
+      static={props.static}
     />
   );
 };

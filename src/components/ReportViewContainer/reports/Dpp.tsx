@@ -2,19 +2,18 @@ import ChartTablePanel from "../layout/ChartTablePanel";
 import CustomAgGridTable from "../../custom/CustomAgGridTable";
 import DppForm from "../forms/DppForm";
 import LineChart from "../../charts/LineChart";
+import Paper from "@mui/material/Paper";
 import StatusWrapper from "../../StatusWrapper";
+import { dppAllTodayParams } from "../../../constants/params";
 import dppConfig from "../../../config/charts/dpp.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetDpp } from "../../../services/reportService";
 
-const Dpp = () => {
+const Dpp = (props: ReportProps) => {
   const params = useAppSelector((state) => state.param.dpp);
-  const { data, isLoading, isFetching, isError } = useGetDpp({
-    startDate: params.startDate,
-    endDate: params.endDate,
-    organizationEIC: params.organizationEIC,
-    uevcbEIC: params.uevcbEIC,
-  });
+  const { data, isLoading, isFetching, isError } = useGetDpp(
+    props.static ? dppAllTodayParams : params
+  );
 
   const dataProps = data?.dppList
     ? Object.getOwnPropertyNames(data?.dppList[0]).filter(
@@ -24,18 +23,23 @@ const Dpp = () => {
 
   dppConfig.chartDataOptions.valuePropNames = dataProps;
 
-  return (
+  const ChartView = (
+    <StatusWrapper status={{ isError }}>
+      <LineChart
+        data={data?.dppList}
+        labelPropName={dppConfig.labelPropName}
+        isLoading={isLoading || isFetching}
+        chartOptions={dppConfig.chartOptions}
+        chartDataOptions={dppConfig.chartDataOptions}
+      />
+    </StatusWrapper>
+  );
+  return props.static ? (
+    <Paper sx={{ p: 3 }}>{ChartView}</Paper>
+  ) : (
     <ChartTablePanel>
       <DppForm />
-      <StatusWrapper status={{ isError }}>
-        <LineChart
-          data={data?.dppList}
-          labelPropName={dppConfig.labelPropName}
-          isLoading={isLoading || isFetching}
-          chartOptions={dppConfig.chartOptions}
-          chartDataOptions={dppConfig.chartDataOptions}
-        />
-      </StatusWrapper>
+      {ChartView}
       {data?.dppList && <CustomAgGridTable data={data?.dppList} />}
     </ChartTablePanel>
   );
