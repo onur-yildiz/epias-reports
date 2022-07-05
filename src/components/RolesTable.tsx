@@ -12,8 +12,8 @@ import {
 
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
-import CustomStack from "./custom/CustomStack";
 import DelayedSnackbar from "./DelayedSnackbar";
+import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 
@@ -49,32 +49,27 @@ const RolesTable = () => {
         textAlign: "left",
         width: "100%",
         height: "93vh",
-        py: 1,
       }}
-      spacing={1}
       className="ag-theme-material"
     >
-      <CustomStack
-        direction="row"
-        sx={{ m: 1 }}
-        spacing={1}
-        justifyContent="space-between"
-      >
-        {gridRef && (
-          <AddRoleForm
-            gridApi={(gridRef as any).current?.api}
-            onAdd={createRole}
-          />
-        )}
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleDelete}
-        >
-          delete selected
-        </Button>
-      </CustomStack>
+      <Paper variant="outlined">
+        <Stack direction="row" sx={{ m: 1 }} justifyContent="space-between">
+          {gridRef && (
+            <AddRoleForm
+              gridApi={(gridRef as any).current?.api}
+              onAdd={createRole}
+            />
+          )}
+          <Button
+            variant="contained"
+            color="error"
+            disableElevation
+            onClick={handleDelete}
+          >
+            delete selected
+          </Button>
+        </Stack>
+      </Paper>
       <AgGridReact
         ref={gridRef}
         gridOptions={gridOptions}
