@@ -20,11 +20,16 @@ const Dashboard = (props: DashboardProps) => {
   };
 
   useEffect(() => {
-    setTitle(
-      props.onLocationChange?.() ??
-        location.pathname.split("/").at(-1)?.toLocaleUpperCase() ??
-        "Dashboard"
-    );
+    const pathnameTitle = location.pathname
+      .split("/")
+      .at(-1)
+      ?.toLocaleUpperCase();
+
+    const newTitle =
+      props.onLocationChange?.() ?? (pathnameTitle && pathnameTitle?.length > 0)
+        ? pathnameTitle!
+        : "Dashboard";
+    setTitle(newTitle);
   }, [location, props]);
 
   return (
