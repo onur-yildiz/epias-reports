@@ -10,10 +10,15 @@ import Button from "@mui/material/Button";
 import CustomStack from "./custom/CustomStack";
 import DateIntervalInput from "./DateIntervalInput";
 import TextField from "@mui/material/TextField";
+import { Theme } from "@mui/material";
 import format from "date-fns/format";
 import { setDppParams } from "../store/paramSlice";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const DppForm = () => {
+  const largeScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("md")
+  );
   const dispatch = useAppDispatch();
   const dppParams = useAppSelector((state) => state.param.dpp);
 
@@ -57,7 +62,11 @@ const DppForm = () => {
 
   return (
     <CustomStack component="form" onSubmit={handleSubmit} disablePaper>
-      <CustomStack disablePaper direction="row" justifyContent="flex-start">
+      <CustomStack
+        disablePaper
+        direction={largeScreen ? "row" : "column"}
+        justifyContent="flex-start"
+      >
         <DateIntervalInput
           startDateProps={{
             value: startDate,

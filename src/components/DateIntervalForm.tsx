@@ -5,8 +5,10 @@ import Button from "@mui/material/Button";
 import DateIntervalInput from "./DateIntervalInput";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import { Theme } from "@mui/material";
 import format from "date-fns/format";
 import { setDateIntervalParams } from "../store/paramSlice";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface DateIntervalFormProps {
   reportKey: DateIntervalReportKey;
@@ -15,6 +17,9 @@ interface DateIntervalFormProps {
 const DateIntervalForm: FC<DateIntervalFormProps> = (
   props: DateIntervalFormProps
 ) => {
+  const largeScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("md")
+  );
   const dispatch = useAppDispatch();
   const params = useAppSelector(
     (state) => state.param.dateIntervalParams[props.reportKey]
@@ -47,8 +52,8 @@ const DateIntervalForm: FC<DateIntervalFormProps> = (
 
   return (
     <Stack
-      direction="row"
-      alignItems="strech"
+      direction={largeScreen ? "row" : "column"}
+      alignItems="stretch"
       spacing={3}
       component="form"
       onSubmit={handleSubmit}
