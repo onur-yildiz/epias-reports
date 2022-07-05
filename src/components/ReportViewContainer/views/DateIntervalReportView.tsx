@@ -2,10 +2,10 @@ import { ChartConfig, ChartTypeRegistry } from "chart.js";
 
 import ChartTablePanel from "../layout/ChartTablePanel";
 import CustomAgGridTable from "../../custom/CustomAgGridTable";
+import CustomStack from "../../custom/CustomStack";
 import DateIntervalForm from "../forms/DateIntervalForm";
 import { FC } from "react";
 import LineChart from "../../charts/LineChart";
-import Paper from "@mui/material/Paper";
 import StatusWrapper from "../../StatusWrapper";
 
 interface DateIntervalReportViewProps {
@@ -33,7 +33,7 @@ const DateIntervalReportView: FC<DateIntervalReportViewProps> = (
   );
 
   return props.static ? (
-    <Paper sx={{ p: 3 }}>{ChartView}</Paper>
+    <CustomStack sx={{ p: 3 }}>{ChartView}</CustomStack>
   ) : (
     <ChartTablePanel>
       <DateIntervalForm reportKey={props.reportKey} />

@@ -5,7 +5,9 @@ import IdmMq from "./ReportViewContainer/reports/IdmMq";
 import IdmWap from "./ReportViewContainer/reports/IdmWap";
 import Rtg from "./ReportViewContainer/reports/Rtg";
 import Smp from "./ReportViewContainer/reports/Smp";
+import { Theme } from "@mui/material/styles";
 import { useAppSelector } from "../hooks";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const mainPageReports: Record<PresentedReportKey, JSX.Element> = {
   "dam-mcp": <DamMcp static />,
@@ -17,6 +19,9 @@ const mainPageReports: Record<PresentedReportKey, JSX.Element> = {
 };
 
 const ReportsDashboardMainView = () => {
+  const extraLargeScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("lg")
+  );
   const reportListingInfo = useAppSelector(
     (state) => state.report.reportListingInfo
   );
@@ -30,7 +35,7 @@ const ReportsDashboardMainView = () => {
   return (
     <Grid container spacing={3} rowSpacing={3} padding={3}>
       {charts.map((chart) => (
-        <Grid item xs={6}>
+        <Grid item xs={extraLargeScreen ? 6 : 12}>
           {chart}
         </Grid>
       ))}

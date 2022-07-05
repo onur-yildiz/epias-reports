@@ -1,8 +1,8 @@
 import ChartTablePanel from "../layout/ChartTablePanel";
 import CustomAgGridTable from "../../custom/CustomAgGridTable";
+import CustomStack from "../../custom/CustomStack";
 import DppForm from "../forms/DppForm";
 import LineChart from "../../charts/LineChart";
-import Paper from "@mui/material/Paper";
 import StatusWrapper from "../../StatusWrapper";
 import { dppAllTodayParams } from "../../../constants/params";
 import dppConfig from "../../../config/charts/dpp.config";
@@ -35,7 +35,7 @@ const Dpp = (props: ReportProps) => {
     </StatusWrapper>
   );
   return props.static ? (
-    <Paper sx={{ p: 3 }}>{ChartView}</Paper>
+    <CustomStack sx={{ p: 3 }}>{ChartView}</CustomStack>
   ) : (
     <ChartTablePanel>
       <DppForm />
