@@ -55,17 +55,17 @@ function App() {
         <Route path="/account" element={<AccountPanel />}>
           <Route index element={<ProfileView />} />
           <Route
-            path="admin/users"
+            path="users"
             element={user.isAdmin ? <UsersTable /> : <StatusCode value={403} />}
           />
           <Route
-            path="admin/reports"
+            path="reports"
             element={
               user.isAdmin ? <ReportsTable /> : <StatusCode value={403} />
             }
           />
           <Route
-            path="admin/roles"
+            path="roles"
             element={user.isAdmin ? <RolesTable /> : <StatusCode value={403} />}
           />
         </Route>

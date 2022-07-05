@@ -1,9 +1,10 @@
+import { useLocation, useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import { FC } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
-import { useNavigate } from "react-router-dom";
 
 interface DrawerListButtonProps {
   primary: string;
@@ -17,12 +18,23 @@ const DrawerListButton: FC<DrawerListButtonProps> = (
   props: DrawerListButtonProps
 ) => {
   const navigate = useNavigate();
+
+  const path = useLocation().pathname.split("/").at(-1);
+  const isActive = path === props.path;
+  const defaultColor = props.emphasize ? "primary.dark" : "primary.main";
   return (
-    <ListItemButton onClick={() => navigate(props.path)}>
+    <ListItemButton
+      onClick={() => navigate(props.path)}
+      sx={{
+        borderRightWidth: "4px",
+        borderRightStyle: "solid",
+        borderColor: isActive ? "secondary.main" : "transparent",
+      }}
+    >
       <Box
         sx={{
           "& *": {
-            color: "primary.main",
+            color: isActive ? "secondary.main" : "primary.main",
             mr: 0.5,
           },
         }}
@@ -35,7 +47,7 @@ const DrawerListButton: FC<DrawerListButtonProps> = (
           secondary={props.secondary}
           primaryTypographyProps={{
             variant: props.emphasize ? "subtitle1" : "subtitle2",
-            color: props.emphasize ? "primary.dark" : "primary.main",
+            color: isActive ? "secondary.main" : defaultColor,
             fontWeight: props.emphasize ? "bolder" : "bold",
           }}
           secondaryTypographyProps={{

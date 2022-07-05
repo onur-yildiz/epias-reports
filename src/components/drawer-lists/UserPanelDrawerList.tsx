@@ -23,7 +23,7 @@ const UserPanelDrawerList = () => {
       <DrawerListButton primary="Account" path="" emphasize />
       {isAdmin && (
         <Fragment>
-          {["admin/users", "admin/reports", "admin/roles"].map((path) => (
+          {["users", "reports", "roles"].map((path) => (
             <DrawerListButton
               icon={<AdminPanelSettings />}
               primary={path
