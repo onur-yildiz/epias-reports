@@ -5,16 +5,7 @@ type XOR<T, U> = T | U extends object
 
 type ReportHierarchyItem = XOR<FolderRoute, ReportRoute>;
 
-type ReportKey =
-  | "dam-mcp"
-  | "idm-wap"
-  | "idm-mq"
-  | "idm-sum"
-  | "bpm-smp"
-  | "dpp"
-  | "rtg"
-  | "dpporg"
-  | "dppiun";
+type ReportKey = DateIntervalReportKey | "dpp" | "dpporg" | "dppiun";
 
 type DateIntervalReportKey =
   | "dam-mcp"
@@ -23,6 +14,16 @@ type DateIntervalReportKey =
   | "idm-sum"
   | "bpm-smp"
   | "rtg";
+
+type PresentedReportKey =
+  | "dam-mcp"
+  | "idm-wap"
+  | "idm-mq"
+  | "dpp"
+  | "bpm-smp"
+  | "rtg";
+
+type QueryStatus = "unavailable" | "loading" | "fetching" | "error" | undefined;
 
 interface UpdateRolesBody {
   roles: string[];
@@ -38,4 +39,6 @@ interface ApiResponse<T> {
   value: T;
 }
 
-type QueryStatus = "unavailable" | "loading" | "fetching" | "error" | undefined;
+interface ReportProps {
+  static?: boolean;
+}
