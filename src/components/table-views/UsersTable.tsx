@@ -5,25 +5,25 @@ import "ag-grid-enterprise";
 import { ColDef, GridOptions, RowNode } from "ag-grid-enterprise";
 import { Fragment, useState } from "react";
 import {
-  useGetReports,
-  useLazyUpdateReportRoles,
-  useUpdateReportIsActive,
-} from "../services/reportService";
+  useGetUsers,
+  useLazyUpdateAccountIsActive,
+  useLazyUpdateAccountRoles,
+} from "../../services/userService";
 
 import { AgGridReact } from "ag-grid-react";
 import Box from "@mui/material/Box";
-import DelayedSnackbar from "./DelayedSnackbar";
-import RoleSelectDialog from "./RoleSelectDialog";
+import DelayedSnackbar from "../DelayedSnackbar";
+import RoleSelectDialog from "./components/RoleSelectDialog";
 
-const ReportsTable = () => {
+const UsersTable = () => {
   const [isRoleSelectOpen, setIsRoleSelectOpen] = useState(false);
-  const [selectedReportRoles, setSelectedReportRoles] = useState<string[]>([]);
+  const [selectedUserRoles, setSelectedUserRoles] = useState<string[]>([]);
   const [activeRow, setActiveRow] = useState<RowNode | null>();
-  const [updateRoles, { isLoading: isLoadingRoles }] =
-    useLazyUpdateReportRoles();
   const [updateIsActive, { isLoading: isLoadingIsActive }] =
-    useUpdateReportIsActive();
-  const { data } = useGetReports();
+    useLazyUpdateAccountIsActive();
+  const [updateRoles, { isLoading: isLoadingRoles }] =
+    useLazyUpdateAccountRoles();
+  const { data } = useGetUsers();
 
   const trueFalseSelector = (_: any) => ({
     component: "agRichSelect",
@@ -35,7 +35,7 @@ const ReportsTable = () => {
     if (roles) {
       try {
         await updateRoles({
-          key: activeRow?.data?.key,
+          userId: activeRow?.data?.id,
           body: { roles },
         }).unwrap();
         activeRow?.setDataValue("roles", roles);
@@ -48,19 +48,14 @@ const ReportsTable = () => {
   };
 
   const [columnDefs] = useState<ColDef[]>([
-    { field: "key", flex: 1 },
-    {
-      field: "name",
-      cellRenderer: (params: any) => {
-        return params.data.name[0].short;
-      },
-      flex: 1,
-    },
+    { field: "id", flex: 1 },
+    { field: "name", flex: 1 },
+    { field: "email", flex: 1 },
     {
       field: "roles",
       onCellClicked: (event) => {
         setIsRoleSelectOpen(true);
-        setSelectedReportRoles([...event.data.roles]);
+        setSelectedUserRoles([...event.data.roles]);
         setActiveRow(event.node);
       },
       cellRenderer: (params: any) => {
@@ -69,6 +64,7 @@ const ReportsTable = () => {
       },
       flex: 1,
     },
+    { field: "isAdmin", flex: 1 },
     {
       field: "isActive",
       editable: true,
@@ -84,7 +80,7 @@ const ReportsTable = () => {
       if (event.colDef.field === "isActive") {
         try {
           await updateIsActive({
-            key: event.data.key,
+            userId: event.data.id,
             body: { isActive: event.newValue },
           }).unwrap();
           event.node.setDataValue("isActive", event.newValue);
@@ -109,19 +105,19 @@ const ReportsTable = () => {
         <AgGridReact gridOptions={gridOptions} rowData={rowData} />
       </Box>
       <RoleSelectDialog
-        id="reports-role-select-dialog"
+        id="users-role-select-dialog"
         keepMounted
         open={isRoleSelectOpen}
         onClose={onRoleSelectionClose}
-        roles={selectedReportRoles}
+        roles={selectedUserRoles}
         isLoading={isLoadingRoles}
       />
       <DelayedSnackbar
         open={isLoadingIsActive}
-        message="Updating report state..."
+        message="Updating user state..."
       />
     </Fragment>
   );
 };
 
-export default ReportsTable;
+export default UsersTable;

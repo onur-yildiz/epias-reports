@@ -1,4 +1,4 @@
-import DateIntervalReportView from "../DateIntervalReportView";
+import DateIntervalReportView from "../views/DateIntervalReportView";
 import smpConfig from "../../../config/charts/smp.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetSmp } from "../../../services/reportService";

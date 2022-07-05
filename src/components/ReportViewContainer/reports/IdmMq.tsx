@@ -1,4 +1,4 @@
-import DateIntervalReportView from "../DateIntervalReportView";
+import DateIntervalReportView from "../views/DateIntervalReportView";
 import idmMqConfig from "../../../config/charts/idmMq.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetIntraDayMatchingQuantity } from "../../../services/reportService";

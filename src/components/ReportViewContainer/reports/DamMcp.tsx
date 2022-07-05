@@ -1,4 +1,4 @@
-import DateIntervalReportView from "../DateIntervalReportView";
+import DateIntervalReportView from "../views/DateIntervalReportView";
 import damMcpConfig from "../../../config/charts/damMcp.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetDayAheadMcp } from "../../../services/reportService";

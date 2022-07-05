@@ -1,4 +1,4 @@
-import DateIntervalReportView from "../DateIntervalReportView";
+import DateIntervalReportView from "../views/DateIntervalReportView";
 import idmWapConfig from "../../../config/charts/idmWap.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetIntraDayWap } from "../../../services/reportService";

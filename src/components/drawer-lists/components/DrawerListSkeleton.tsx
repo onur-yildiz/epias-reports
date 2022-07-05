@@ -1,7 +1,7 @@
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 
-const ListSkeleton = () => {
+const DrawerListSkeleton = () => {
   return (
     <List>
       {new Array(15).fill(null).map((_, index) => (
@@ -19,4 +19,4 @@ const ListSkeleton = () => {
   );
 };
 
-export default ListSkeleton;
+export default DrawerListSkeleton;

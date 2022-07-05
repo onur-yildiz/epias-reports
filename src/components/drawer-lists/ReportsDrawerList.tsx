@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import DrawerListButton from "./DrawerListButton";
-import DrawerListFolder from "./DrawerListFolder";
+import DrawerListButton from "./components/DrawerListButton";
+import DrawerListFolder from "./components/DrawerListFolder";
+import DrawerListSkeleton from "./components/DrawerListSkeleton";
 import List from "@mui/material/List";
-import ListSkeleton from "./ListSkeleton";
-import { createMenu } from "../utils/menu";
-import { useAppSelector } from "../hooks";
+import { createMenu } from "../../utils/menu";
+import { useAppSelector } from "../../hooks";
 
 const ReportsDrawerList = () => {
   const [listItems, setListItems] = useState<JSX.Element[]>([]);
@@ -52,7 +52,7 @@ const ReportsDrawerList = () => {
     setListItems(generateListItems(menu));
   }, [reportRoutes]);
 
-  if (!reportRoutes) return <ListSkeleton />;
+  if (!reportRoutes) return <DrawerListSkeleton />;
   return <List component="nav">{listItems}</List>;
 };
 

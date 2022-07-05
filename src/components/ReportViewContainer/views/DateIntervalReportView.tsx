@@ -1,11 +1,11 @@
 import { ChartConfig, ChartTypeRegistry } from "chart.js";
 
-import ChartTablePanel from "./ChartTablePanel";
-import CustomAgGridTable from "../custom/CustomAgGridTable";
-import DateIntervalForm from "../DateIntervalForm";
+import ChartTablePanel from "../layout/ChartTablePanel";
+import CustomAgGridTable from "../../custom/CustomAgGridTable";
+import DateIntervalForm from "../forms/DateIntervalForm";
 import { FC } from "react";
-import LineChart from "../charts/LineChart";
-import StatusWrapper from "../StatusWrapper";
+import LineChart from "../../charts/LineChart";
+import StatusWrapper from "../../StatusWrapper";
 
 interface DateIntervalReportViewProps {
   data: any[] | undefined;

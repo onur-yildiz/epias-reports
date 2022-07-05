@@ -1,4 +1,4 @@
-import DateIntervalReportView from "../DateIntervalReportView";
+import DateIntervalReportView from "../views/DateIntervalReportView";
 import rtgConfig from "../../../config/charts/rtg.config";
 import { useAppSelector } from "../../../hooks";
 import { useGetRtg } from "../../../services/reportService";

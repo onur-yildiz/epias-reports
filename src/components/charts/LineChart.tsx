@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { Download } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { Line } from "react-chartjs-2";
-import LineChartSkeleton from "./LineChartSkeleton";
+import LineChartSkeleton from "./components/LineChartSkeleton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import html2canvas from "html2canvas";

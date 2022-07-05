@@ -1,13 +1,13 @@
 import { FC, FormEvent, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
 import Button from "@mui/material/Button";
-import DateIntervalInput from "./DateIntervalInput";
+import DateIntervalInput from "../../DateIntervalInput";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { Theme } from "@mui/material";
 import format from "date-fns/format";
-import { setDateIntervalParams } from "../store/paramSlice";
+import { setDateIntervalParams } from "../../../store/paramSlice";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface DateIntervalFormProps {

@@ -1,5 +1,5 @@
 import Dashboard from "..";
-import UserPanelDrawerList from "../../../components/UserPanelDrawerList";
+import UserPanelDrawerList from "../../../components/drawer-lists/UserPanelDrawerList";
 
 const AccountPanel = () => {
   return <Dashboard menu={<UserPanelDrawerList />} />;

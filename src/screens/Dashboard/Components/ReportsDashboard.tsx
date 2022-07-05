@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
 import Dashboard from "..";
-import ReportsDrawerList from "../../../components/ReportsDrawerList";
+import ReportsDrawerList from "../../../components/drawer-lists/ReportsDrawerList";
 import { setReports } from "../../../store/reportSlice";
 import { useEffect } from "react";
 import { useGetReportListingInfo } from "../../../services/reportService";

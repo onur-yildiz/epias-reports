@@ -1,18 +1,18 @@
 import { FormEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import {
   useGetDppInjectionUnitName,
   useGetDppOrganization,
-} from "../services/reportService";
+} from "../../../services/reportService";
 
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import CustomStack from "./custom/CustomStack";
-import DateIntervalInput from "./DateIntervalInput";
+import CustomStack from "../../custom/CustomStack";
+import DateIntervalInput from "../../DateIntervalInput";
 import TextField from "@mui/material/TextField";
 import { Theme } from "@mui/material";
 import format from "date-fns/format";
-import { setDppParams } from "../store/paramSlice";
+import { setDppParams } from "../../../store/paramSlice";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const DppForm = () => {

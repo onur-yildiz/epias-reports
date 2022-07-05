@@ -8,11 +8,11 @@ import {
   useCreateRole,
   useGetRoles,
   useRemoveRole,
-} from "../services/rolesService";
+} from "../../services/rolesService";
 
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
-import DelayedSnackbar from "./DelayedSnackbar";
+import DelayedSnackbar from "../DelayedSnackbar";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";

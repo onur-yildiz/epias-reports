@@ -4,7 +4,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { ChartDataOptions } from "../../../utils/chartUtils";
 import CustomStack from "../../custom/CustomStack";
-import DateIntervalForm from "../../DateIntervalForm";
+import DateIntervalForm from "../forms/DateIntervalForm";
 import LineChart from "../../charts/LineChart";
 import MenuItem from "@mui/material/MenuItem";
 import format from "date-fns/format";
