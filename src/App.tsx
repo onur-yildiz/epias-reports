@@ -10,6 +10,7 @@ import ProfileView from "./components/ProfileView";
 import Register from "./screens/Register";
 import ReportViewContainer from "./components/ReportViewContainer";
 import ReportsDashboard from "./screens/Dashboard/Components/ReportsDashboard";
+import ReportsDashboardMainView from "./components/ReportsDashboardMainView";
 import ReportsTable from "./components/table-views/ReportsTable";
 import RolesTable from "./components/table-views/RolesTable";
 import StatusCode from "./components/StatusCode";
@@ -50,6 +51,7 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<ReportsDashboard />}>
+          <Route index element={<ReportsDashboardMainView />} />
           <Route path={"/:reportKey"} element={<ReportViewContainer />} />
         </Route>
         <Route path="/account" element={<AccountPanel />}>
