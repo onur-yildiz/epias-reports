@@ -76,7 +76,7 @@ const ApiKeysTable = () => {
             </TableHead>
             <TableBody>
               {apiKeys?.map((apiKey) => (
-                <TableRow hover sx={{ ":hover": { cursor: "pointer" } }}>
+                <TableRow hover sx={{ ":hover": { cursor: "copy" } }}>
                   <TableCell onClick={() => handleCopyToClipboard(apiKey.key)}>
                     {apiKey.key}
                   </TableCell>
