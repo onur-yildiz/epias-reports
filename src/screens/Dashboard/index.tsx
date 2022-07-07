@@ -20,16 +20,11 @@ const Dashboard = (props: DashboardProps) => {
   };
 
   useEffect(() => {
-    const pathnameTitle = location.pathname
-      .split("/")
-      .at(-1)
-      ?.toLocaleUpperCase();
+    let fallbackTitle = location.pathname.split("/").at(-1)?.toUpperCase();
+    if (!fallbackTitle || fallbackTitle.length === 0)
+      fallbackTitle = "Dashboard";
 
-    const newTitle =
-      props.onLocationChange?.() ?? (pathnameTitle && pathnameTitle?.length > 0)
-        ? pathnameTitle!
-        : "Dashboard";
-    setTitle(newTitle);
+    setTitle(props.onLocationChange?.() ?? fallbackTitle);
   }, [location, props]);
 
   return (

@@ -23,7 +23,7 @@ const ReportsDashboard = () => {
     const report = reportRoutes?.find(
       (p) => p.key === location.pathname.slice(1)
     );
-    return report?.name[0].long.toLocaleUpperCase();
+    return report?.name[0].long.toUpperCase();
   };
 
   return (
