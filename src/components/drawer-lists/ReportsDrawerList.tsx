@@ -26,9 +26,9 @@ const ReportsDrawerList = () => {
         let secondary;
         if ("children" in route) {
           route = route as FolderRoute;
-          primary = route.name[0].short ?? "";
+          primary = route.name[0].short ?? route.order.split("").join(".");
           return (
-            <DrawerListFolder key={Math.random()} primary={primary}>
+            <DrawerListFolder key={route.order} primary={primary}>
               {generateListItems(route)}
             </DrawerListFolder>
           );
@@ -39,7 +39,7 @@ const ReportsDrawerList = () => {
           secondary = route.name[0].long;
           return (
             <DrawerListButton
-              key={Math.random()}
+              key={route.key}
               primary={primary}
               secondary={secondary}
               path={route.key}
