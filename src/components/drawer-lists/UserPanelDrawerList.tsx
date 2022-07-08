@@ -20,11 +20,12 @@ const UserPanelDrawerList = () => {
       >
         back to reports
       </Button>
-      <DrawerListButton primary="Account" path="" emphasize />
+      <DrawerListButton key={"account"} primary="Account" path="" emphasize />
       {isAdmin && (
         <Fragment>
-          {["users", "reports", "roles"].map((path) => (
+          {["users", "reports", "roles"].map((path, i) => (
             <DrawerListButton
+              key={i}
               icon={<AdminPanelSettings />}
               primary={path
                 .split("/")

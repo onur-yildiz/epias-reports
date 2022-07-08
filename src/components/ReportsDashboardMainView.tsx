@@ -34,8 +34,8 @@ const ReportsDashboardMainView = () => {
 
   return (
     <Grid container spacing={3} rowSpacing={3} padding={3}>
-      {charts.map((chart) => (
-        <Grid item xs={extraLargeScreen ? 6 : 12}>
+      {charts.map((chart, i) => (
+        <Grid key={i} item xs={extraLargeScreen ? 6 : 12}>
           {chart}
         </Grid>
       ))}
